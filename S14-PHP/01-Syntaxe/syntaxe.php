@@ -341,11 +341,83 @@
                 break;
         }
 
-        $couleur = "jaune";
+        // EXERCICE :  Refaire cette condition switch mais en if / elseif / else 
+
+        $couleur = "rouge";
+
         if ($couleur == "bleu") echo "Vous aimez le bleu<br>";
         elseif ($couleur == "rouge") echo "Vous aimez le rouge<br>";
         elseif ($couleur == "vert") echo "Vous aimez le vert<br>";
         else echo "Vous n'aimez ni le bleu, ni le rouge, ni le vert<br>";
+
+        echo "<h2>07 - Fonctions prédéfinies</h2>";
+
+        // Inscrites au langage, le développeur ne fait que les exécuter !
+        // Ce qu'on a besoin de savoir ? Le nombre de paramètres et leurs types puis le type du return de la fonction (ce qui sort de la fonction)
+
+        // Fonction date() 
+        // Permet d'afficher la date du jour en choisissant un format spécifique
+        echo "Nous sommes le : " . date("d/m/Y") . "<hr>";
+        // Deuxième param facultatif mais possible à fournir, une date à formater en timestamp (nombre de secondes depuis le 1er janvier 70)
+        echo "Une date formatée : " . date("d/m/Y H:i:s", strtotime("2022-05-05")) . "<br>";
+
+        // strlen() / iconv_strlen()
+        // Permettent de compter le nombre de caractères dans une chaine 
+
+        echo strlen("Mélanie") . "<br>"; // strlen compte le nombre d'octet, (un caractère spécial vaut plusieurs octets, tout dépends des encodages)
+        echo iconv_strlen("Mélanie") . "<br>"; // iconv_strlen compte le nombre réel de charactères
+
+
+
+        echo "<h2>08 - Fonctions utilisateurs</h2>";
+
+        // Déclarées et exécutées par le développeur
+        // On développe nos propres fonctions ! 
+
+        // Fonction toute simple permettant d'afficher 3 <hr>
+        function separateur()
+        {
+            echo "<hr><hr><hr>";
+        }
+
+        separateur();
+
+        // Fonction avec argument (param/paramètre/variable de réception)
+        // Fonction pour dire bonjour à un utilisateur saisi
+        function dire_bonjour(string $qui): string {
+            return "Bonjour $qui, bienvenue sur notre site <hr>";
+        }
+
+        echo dire_bonjour("Pierra");
+        $pseudo = "Bob";
+        echo dire_bonjour($pseudo);
+
+        // Fonction permettant de calculer le prix TTC 
+        function applique_tva($prix) {
+            return "Le montant TTC pour le prix $prix est de : " . ($prix * 1.2) . "€<hr>";
+        }
+
+        echo applique_tva(100);
+        echo applique_tva(500);
+
+        // EXERCICE : Refaire cette fonction mais en permettant de choisir aussi le taux de TVA à appliquer - sous forme d'entier 
+                // Une fois cela fait, faire en sorte de rendre ce choix de taux facultatif, auquel cas, le taux par défaut sera celui de 20%
+
+        function apply_and_chose_tva(int $prix, ?int $rate = null) : string {
+         $applyrateconversion = function(int $prix, ?int $rate = null) : float {
+               if ($rate == null) {
+                  return $prix * 1.2;
+              } else { 
+                  return $prix + $prix / 100 * $rate;
+              }
+            };
+         return "Le montant TTC pour le prix $prix est de : " . $applyrateconversion($prix, $rate) . "€<hr>";
+        }
+
+        echo apply_and_chose_tva(200);
+        echo apply_and_chose_tva(200, 15);
+
+
 
 
 
