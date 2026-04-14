@@ -609,32 +609,36 @@
         // Actuel : 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 -
         // Attendu : 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
 
+                for($i = 0; $i < 10; $i++) {
+            echo  $i . ($i < 9) ? " - " : "";
+        }
+
         // 2 - Afficher des nombres allant de 1 à 100
-
+        for($i = 1; $i <= 100; $i++) {
+            echo  $i . ($i < 100) ? " - " : "";
+        }
         // 3 - Afficher des nombres allant de 1 à 100 avec le chiffre 50 en rouge 
-
+        for($i = 1; $i <= 100; $i++) {
+            if($i == 50) {
+                echo "<span style='color:red'>$i</span> - ";
+            } else {
+                echo $i . " - ";
+            }
+        }
         // 4 - Afficher des nombres allant de 2000 à 1930
-
+        for($i = 2000; $i >= 1930; $i--) {
+            echo $i . " - ";
+        }
         // 5 - Afficher le titre suivant "<h2> Je m'affiche pour la Nème fois</h2>"
             // Remplacer le N avec la valeur du tour de boucle pour écrire 1ère 2ème 3ème etc 
 
-        function apply_and_chose_tva(int $prix, ?int $rate = null) : string {
-         $applyrateconversion = function(int $prix, ?int $rate = null) : float {
-               if (isempty($rate)) {
-                  return $prix * 1.2;
-              } else { 
-                  return $prix + $prix / 100 * $rate;
-              }
-            };
-         return "Le montant TTC pour le prix $prix est de : " . $applyrateconversion($prix, $rate) . "€<hr>";
+        for($i = 1; $i <= 10; $i++) {
+            if($i == 1) {
+                echo "<h2>Je m'affiche pour la $ière fois</h2>";
+            } else {
+                echo "<h2>Je m'affiche pour la $ième fois</h2>";
+            }
         }
-
-        function apply_VAT(float $price, ?int $rate = 20) : string {
-            return "Le montant TTC pour le prix $price est de : " . ($price * (1 + $rate / 100)) . "€<hr>";
-        }
-
-        echo apply_and_chose_tva(200);
-        echo apply_and_chose_tva(200, 15);
 
 
             // Fermeture de la balise PHP
