@@ -119,7 +119,7 @@
         $x = "Bonjour";
         $y = "tout le monde";
 
-        echo "$x $y <br>";
+        echo "$x $y <br>"; // Entre les guillemets en PHP, les variables sont interprétées !
         echo '$x $y <br>';
 
         echo "<h2>05 - Constantes</h2>";
@@ -369,7 +369,6 @@
         echo iconv_strlen("Mélanie") . "<br>"; // iconv_strlen compte le nombre réel de charactères
 
 
-
         echo "<h2>08 - Fonctions utilisateurs</h2>";
 
         // Déclarées et exécutées par le développeur
@@ -385,7 +384,8 @@
 
         // Fonction avec argument (param/paramètre/variable de réception)
         // Fonction pour dire bonjour à un utilisateur saisi
-        function dire_bonjour(string $qui): string {
+        function dire_bonjour(string $qui): string
+        {
             return "Bonjour $qui, bienvenue sur notre site <hr>";
         }
 
@@ -394,7 +394,8 @@
         echo dire_bonjour($pseudo);
 
         // Fonction permettant de calculer le prix TTC 
-        function applique_tva($prix) {
+        function applique_tva($prix)
+        {
             return "Le montant TTC pour le prix $prix est de : " . ($prix * 1.2) . "€<hr>";
         }
 
@@ -402,14 +403,49 @@
         echo applique_tva(500);
 
         // EXERCICE : Refaire cette fonction mais en permettant de choisir aussi le taux de TVA à appliquer - sous forme d'entier 
-                // Une fois cela fait, faire en sorte de rendre ce choix de taux facultatif, auquel cas, le taux par défaut sera celui de 20%
+        // Une fois cela fait, faire en sorte de rendre ce choix de taux facultatif, auquel cas, le taux par défaut sera celui de 20%
 
+        function apply_and_choose_tva(int $prix, ?int $rate = null): string
+        {
+            // Ici une fonction déclarée à l'intérieur de l'autre fonction et insérée dans une variable
+            // C'est rare et assez particulier 
+          
+            $apply_rate_conversion = function (int $prix, ?int $rate = null): float {
+                if (empty($rate)) {
+                    return $prix * 1.2;
+                } else {
+                    return $prix + ($prix / 100) * $rate;
+                }
+            };
+            return "Le prix TTC pour le $prix est de " . $apply_rate_conversion($prix, $rate) . "€<hr>";
+        }
 
+        echo apply_and_choose_tva(1000);
 
+        function applique_tva_taux(float $prix, ?float $taux = 20): string
+        {
+            return "Le montant TTC pour le prix $prix au taux de $taux % est de " . ($prix * (1 + ($taux / 100))) . "€<hr>";
+        }
 
+        echo applique_tva_taux(2000);
+        echo applique_tva_taux(2000, 5.5);
 
+        // function meteo 
+        function meteo($saison, $temperature) {
+            $debut = "Nous sommes en " . $saison;
+            $suite = " et il fait " . $temperature . " degré(s)<hr>";
 
+            return $debut . $suite;
+        }
 
+        separateur();
+
+        echo meteo("été", 35);
+        echo meteo("printemps", 20);
+        echo meteo("hiver", 1);
+        echo meteo("automne", 12);
+
+        // EXERCICE : Refaire cette fonction en gérant le 'en' printemps qui devrait être 'au' printemps et aussi le pluriel (le s) sur degré, doit il y est quand c'est une température au pluriel, soit il n'y est pas 
 
 
 
