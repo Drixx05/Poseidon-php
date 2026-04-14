@@ -405,7 +405,7 @@
 
         function apply_and_chose_tva(int $prix, ?int $rate = null) : string {
          $applyrateconversion = function(int $prix, ?int $rate = null) : float {
-               if ($rate == null) {
+               if (isempty($rate)) {
                   return $prix * 1.2;
               } else { 
                   return $prix + $prix / 100 * $rate;
@@ -414,11 +414,19 @@
          return "Le montant TTC pour le prix $prix est de : " . $applyrateconversion($prix, $rate) . "€<hr>";
         }
 
+        function apply_VAT(float $price, ?int $rate = 20) : string {
+            return "Le montant TTC pour le prix $price est de : " . ($price * (1 + $rate / 100)) . "€<hr>";
+        }
+
         echo apply_and_chose_tva(200);
         echo apply_and_chose_tva(200, 15);
 
 
-
+                function weather($season, $temperature) {
+                    $debut = ($season === "printemps") ? "Nous sommes au" . $season : "Nous sommes en" . $season;
+                    $suite = " et il fait" . $temperature . (($temperature > -1 && $temperature < 1) ? "degré" : "degré(s)") . " <hr>";
+                    return $debut . $suite;
+                }
 
 
 
