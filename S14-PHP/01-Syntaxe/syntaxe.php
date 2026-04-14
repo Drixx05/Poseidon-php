@@ -602,26 +602,253 @@
 
         separateur();
         // EXERCICES : 
-        for($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             echo $i . " - ";
         }
 
+        separateur();
         // 1 - Modificer cette boucle pour ne pas avoir le tiret à la fin du 9 
         // Actuel : 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 -
         // Attendu : 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
 
+        for ($i = 0; $i < 10; $i++) {
+            echo $i . ($i < 9 ? " - " : "");
+        }
+
+        separateur();
+
         // 2 - Afficher des nombres allant de 1 à 100
+        for ($i = 0; $i <= 100; $i++) {
+            echo "$i ";
+        }
+
+        separateur();
 
         // 3 - Afficher des nombres allant de 1 à 100 avec le chiffre 50 en rouge 
+        $i = 1;
+        while ($i <= 100) {
+            echo ($i == 50) ? "<span style='color:red'>$i </span>" : "$i ";
+            $i++;
+        }
+
+        separateur();
 
         // 4 - Afficher des nombres allant de 2000 à 1930
+        for ($i = 2000; $i >= 1930; $i--) {
+            echo "$i ";
+        }
 
         // 5 - Afficher le titre suivant "<h2> Je m'affiche pour la Nème fois</h2>"
-            // Remplacer le N avec la valeur du tour de boucle pour écrire 1ère 2ème 3ème etc 
+        // Remplacer le N avec la valeur du tour de boucle pour écrire 1ère 2ème 3ème etc 
+
+        for ($i = 1; $i < 10; $i++) {
+            $eme = ($i == 1) ? "ère" : "ème";
+            echo "<h2> Je m'affiche pour la $i$eme fois</h2>";
+        }
+
+        echo "<h2>10 - Tableaux de donées Array </h2>";
+        // Array est un nouveau type de données 
+        // Une variable de type array nous permet de conserver un ensemble de valeur
+        // Un array est toujours composé d'indice et de sa valeur associé
+        // Par défaut un array est indexé numériquement 
+
+        // Pour piocher dans un array on appellera toujours l'index pour récupérer la valeur 
+
+        // Déclaration d'un tableau array 
+        $tabJours = array("lundi", "mardi", "mercredi", "jeudi", "vendredi");
+
+
+        // echo $tabJours; // Erreur Array to string conversion, je ne peux pas echo un array entier ! 
+
+        // Pour controler le contenu d'un array je vais dumper le array ! au travers des instructions var_dump et print_r
+        // On s'en sert tout le temps ! Pour controler les données auxquelles on a accès à un instant T 
+
+        var_dump($tabJours);
+
+        echo "<pre>";
+        print_r($tabJours);
+        echo "</pre>";
+
+        //         Array
+        // (
+        //     [0] => lundi
+        //     [1] => mardi
+        //     [2] => mercredi
+        //     [3] => jeudi
+        //     [4] => vendredi
+        // )
+
+        // Si je veux afficher "mercredi" ? 
+        // Simplement, j'appelle le array et entre crochets j'indique l'id que je souhaite afficher
+        // Les crochets symbolise vraiment la syntaxe des array, dès qu'on voit des crochets, ce sera toujours pour manipuler des array 
+        echo $tabJours[2];
+
+        // Pour rajouter dans un array, on peut utiliser array_push()
+        array_push($tabJours, "samedi", "dimanche");
+        var_dump($tabJours);
+        // Il existe plein de fonctions en rapport avec les array (voir doc)
+
+        // Autre syntaxe pour les array 
+        $tabMois = ["janvier", "fevrier", "mars", "avril"];
+
+        var_dump($tabMois);
+
+        $tabMois[] = "mai"; // Pour rajouter dans un array sans spécifier d'indice
+        $tabMois[] = "juin";
+
+        var_dump($tabMois);
+
+        $tabFruits[] = "fraises"; // La première ligne crée le tableau
+        $tabFruits[] = "pommes"; // Ensuite ça rajoute dans le tableau précédemment créé
+        $tabFruits[] = "bananes"; // Ensuite ça rajoute dans le tableau précédemment créé
+        $tabFruits[] = "noix de coco"; // Ensuite ça rajoute dans le tableau précédemment créé
+
+        var_dump($tabFruits);
+
+        // array (size=4)
+        //     0 => string 'fraises' (length=7)
+        //     1 => string 'pommes' (length=6)
+        //     2 => string 'bananes' (length=7)
+        //     3 => string 'noix de coco' (length=12)
+
+        // Pour connaitre la taille d'un tableau : 
+        // count() ou sizeof()
+        echo "Taille du tableau contenant les fruits : " . count($tabFruits) . "<br>";
+        echo "Taille du tableau contenant les fruits : " . sizeof($tabFruits) . "<br>";
+
+        // Affichage du tabFruits avec une boucle dans une liste ul li 
+        echo "<ul>";
+        for ($i = 0; $i < count($tabFruits); $i++) {
+            echo "<li>" . $tabFruits[$i] . "</li>";
+        }
+        echo "</ul>";
+
+        // Il est possible en PHP d'avoir des id de notre array, nommés ! C'est à dire au lieu d'avoir une indexation numérique, on aura des mots plus parlant 
+        $membre = ["pseudo" => "Pierra", "email" => "pierra@mail.com", "age" => 38, "date_inscription" => "2022-01-01"];
+
+        var_dump($membre);
+
+        // On peut rajouter dans un array en choisissant l'index
+        $membre["ville"] = "Pau";
+        $membre["cp"] = 64000;
+
+        var_dump($membre);
+
+        // Pour piocher une seule information on appelle l'indice entre crochets 
+        echo "Le pseudo du membre est : " . $membre["pseudo"];
+
+        // Sur ce dernier tableau les index ne sont plus numériques, donc je ne peux plus profiter des index numérique avec une boucle numérique pour piocher les éléments un par un ...
+        // Pas grave ! Nous avons la boucle foreach ! 
+
+        // foreach() c'est un outil de boucle avancé spécifique pour les array et les objets 
+        // En gros, la boucle se lance et va simplement parcourir chacune des valeurs du tableau array, nous n'avons plus à nous soucier de la taille de l'array ! Elle s'arrête automatiquement à la fin 
+
+        // Deux syntaxes possibles pour la boucle foreach
+
+        separateur();
+
+        // La première, récupère uniquement la valeur à chaque tour de boucle
+
+        foreach ($membre as $valeur) { // Ici je nomme la seconde variable comme je le souhaite, elle récupère à chaque tour de boucle la valeur de l'indice parcouru
+            echo "- $valeur<br>";
+        }
+
+        // La deuxième, récupère la valeur mais aussi le nom de l'index à chaque tour de boucle 
+        foreach ($membre as $key => $valeur) { // Ici $key récupère le nom de l'indice parcouru et $valeur sa valeur ! 
+            if ($key == "image") {
+                echo "<img>.....";
+            } elseif ($key == "password") {
+                echo "";
+            } else {
+                echo "- $key : $valeur<br>";
+            }
+        }
+        // L'intérêt de récupérer les noms des indices est non pas de les afficher mais plutôt pour appliquer un traitement différent en fonction de l'indice (par exemple l'affichage d'une image ou ignorer un certains indice)
+
+        // Il est possible d'avoir un tableau dans un autre tableau, c'est ce qu'on appelle un array multidimensionnel 
+
+        $membres = [
+            [
+                "pseudo" => "Pierra",
+                "email" => "pierra@mail.com",
+                "age" => 38,
+                "date_inscription" => "2022-01-01"
+            ],
+            [
+                "pseudo" => "Lolo",
+                "email" => "lolo@mail.com",
+                "age" => 23,
+                "date_inscription" => "2013-01-01"
+            ],
+            [
+                "pseudo" => "Boby",
+                "email" => "bob@mail.com",
+                "age" => 15,
+                "date_inscription" => "2025-01-01"
+            ]
+        ];
+
+        var_dump($membres);
+
+        foreach($membres as $membre) {
+            echo $membre["pseudo"];
+        }
+
+        separateur();
+
+        // array (size=3)
+        //     0 => 
+        //         array (size=4)
+        //         'pseudo' => string 'Pierra' (length=6)
+        //         'email' => string 'pierra@mail.com' (length=15)
+        //         'age' => int 38
+        //         'date_inscription' => string '2022-01-01' (length=10)
+        //     1 => 
+        //         array (size=4)
+        //         'pseudo' => string 'Lolo' (length=4)
+        //         'email' => string 'lolo@mail.com' (length=13)
+        //         'age' => int 23
+        //         'date_inscription' => string '2013-01-01' (length=10)
+        //     2 => 
+        //         array (size=4)
+        //         'pseudo' => string 'Boby' (length=4)
+        //         'email' => string 'bob@mail.com' (length=12)
+        //         'age' => int 15
+        //         'date_inscription' => string '2025-01-01' (length=10)
+
+        // Avec un array à plusieurs niveaux, si je veux afficher Boby ?
+        // On doit rentrer dans les indices un à un, en utilisation une succession de crochets 
+        echo $membres[2]["pseudo"];
+
+        echo "<h2>11 - Inclusion de fichier</h2>";
+
+        // On va créer un fichier au même niveau que ce fichier syntaxe.php
+        // On va y mettre un peu de texte 
+        // _exemple.php
+
+        // On va chercher à amener le contenu de _exemple.php ici à l'intérieur de syntaxe.php 
+
+        // Pour ça, deux outils : include et require avec leurs versions _once 
+
+        echo "<b>Premier appel avec include : </b><hr>";
+        // On remarque ici que la totalité du contenu de _exemple.php se retrouve transposé ici ! 
+        // Attention si on y laisse une structure de page entière (avec le doctype etc) on retrouve ces elements en double dans notre page !
+        // On ne mettra jamais les balises doctype, head, body dans nos partials (c'est le nom qu'on donne à ces portions de fichiers) (sauf exception pour la découpe de la structure de notre site web)
+        include("_exemple.php");
+        separateur();
+        echo "<b>Deuxieme appel avec include_once : </b><hr>";
+        include_once("_exemple.php");
+        separateur();
+        echo "<b>Premier appel avec require : </b><hr>";
+        require("_exemple.php");
+        separateur();
+        echo "<b>Deuxieme appel avec require_once : </b><hr>";
+        require_once("_exemple.php");
 
 
 
-            // Fermeture de la balise PHP
+
+        // Fermeture de la balise PHP
         ?>
     </div>
 

@@ -1,0 +1,4 @@
+    <h1>Fichiers exemple à inclure !</h1>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt animi voluptate vitae non voluptatibus! Delectus facere perferendis excepturi deserunt minus error, reiciendis iure ea officia, repudiandae, nesciunt inventore veritatis fugit.
+    Eius facilis reiciendis deleniti eaque repellendus accusantium officia rerum quis porro in doloremque, delectus necessitatibus blanditiis amet ipsum, incidunt maiores pariatur? Repudiandae minus cupiditate enim tenetur omnis nemo sed earum?
+    Fuga dignissimos consectetur harum, ut perspiciatis repellendus quae, nisi voluptas nostrum atque placeat iusto sed eius. Placeat, magnam asperiores? Explicabo vel repellendus dicta porro illum sequi maxime rem architecto cumque.</p>
