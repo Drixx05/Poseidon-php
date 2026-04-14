@@ -409,7 +409,7 @@
         {
             // Ici une fonction déclarée à l'intérieur de l'autre fonction et insérée dans une variable
             // C'est rare et assez particulier 
-          
+
             $apply_rate_conversion = function (int $prix, ?int $rate = null): float {
                 if (empty($rate)) {
                     return $prix * 1.2;
@@ -431,7 +431,8 @@
         echo applique_tva_taux(2000, 5.5);
 
         // function meteo 
-        function meteo($saison, $temperature) {
+        function meteo($saison, $temperature)
+        {
             $debut = "Nous sommes en " . $saison;
             $suite = " et il fait " . $temperature . " degré(s)<hr>";
 
@@ -446,10 +447,181 @@
         echo meteo("automne", 12);
 
         // EXERCICE : Refaire cette fonction en gérant le 'en' printemps qui devrait être 'au' printemps et aussi le pluriel (le s) sur degré, doit il y est quand c'est une température au pluriel, soit il n'y est pas 
+        function meteo2($saison, $temperature)
+        {
+            if ($saison == 'printemps') {
+                $debut = 'Nous sommes au ' . $saison;
+            } else {
+                $debut = 'Nous sommes en ' . $saison;
+            }
+
+            // if($temperature == 0 || $temperature == 1 || $temperature == -1) {
+            // if (abs($temperature) <= 1) {  // abs nous donne la valeur absolue du nombre fourni en argument
+            if ($temperature >= -1 && $temperature <= 1) {
+                $suite = ' et il fait ' . $temperature . ' degré<hr>';
+            } else {
+                $suite = ' et il fait ' . $temperature . ' degrés<hr>';
+            }
+
+            return $debut . $suite;
+        }
+
+
+        function new_meteo($saison, $temperature)
+        {
+
+            $liaison = ($saison == "printemps") ? "au" : "en";
+            $degre = ($temperature > 1 or $temperature < -1) ? " degrés<hr>" : " degré<hr>";
+
+            return "Nous sommes $liaison $saison et il fait $temperature $degre";
+        }
+
+        function meteo3($saison, $temperature)
+        {
+            $art = ($saison == "printemps") ? "au" : "en";
+            $s = (abs($temperature) <= 1) ? "" : "s";
+
+            return "Nous sommes $art $saison et il fait $temperature degré$s <hr>";
+        }
+
+        function meteo4($saison, $temperature)
+        {
+            return "Nous sommes "
+                . ($saison == "printemps" ? "au" : "en")
+                . " $saison et il fait $temperature "
+                . ($temperature > 1 || $temperature < -1 ? "degrés" : "degré")
+                . "<hr>";
+        }
+
+
+        // ENVIRONNEMENT (scope)
+        // Global : le script complet
+        // Local : à l'intérieur d'une fonction/classe/méthode
+
+        // L'existence d'une variable dépends de l'environnement dans laquelle on la déclare 
+        // Une variable déclarée dans un espace local, n'existe QUE dans cet espace 
+
+        separateur();
+
+        $animal = "chat"; // Variable dans le scope global
+        echo $animal . "<hr>";
+
+        function foret(): string
+        {
+            $animal = "chien"; // Variable dans le scope local, elle n'existe que dans la function
+            return $animal; // return uniquement de la valeur de la variable ! La variable locale elle même ne sort pas de la fonction
+        }
+
+        echo $animal; // chat 
+        foret(); // rien ne se passe, pas d'echo, pas de traitement, rien, un string est return et perdu (non traité)
+        echo $animal; // chat
+        echo foret(); // chien
+        echo $animal; // chat
+        $animal = foret(); // Uniquement ici, changement de valeur de la variable $animal globale par la valeur return de la function
+        echo $animal; // chien
+
+        separateur();
+
+        $pays = "France"; // Variable dans le scope global
+
+        function affiche_pays()
+        {
+            global $pays; // Avec global, il est possible de récupérer une variable du scope global pour la manipuler dans la fonction
+            $pays = "Japon";
+        }
+
+        echo $pays; // France
+
+        affiche_pays(); // En executant cette fonction, je peux changer la valeur de la variable globale 
+
+        echo $pays; // Japon
+
+        separateur();
+
+        // phpinfo();
+
+        // Il est possible de typer les params d'une fonction ainsi que son return 
+        function identite(string|null $nom, int|float $age = 0, int $cp = 0): string
+        {
+            return "$nom a $age ans et habite dans le $cp<br>";
+        }
+
+        // Malgré que PHP soit un langage flexible, si je lui fourni des types trop différents, alors j'aurai des erreurs de type !
+        echo identite("Pierra", 38, 64);
+
+        // Depuis PHP 9 on peut aussi appeler les arguments par leur nom, ce qui évite de tous les citer (surtout lorsqu'on a de nombreux param facultatifs)
+        echo identite(nom: "Lolo", cp: 34000);
+
+        echo "<h2>09 - Structure itérative : Boucles </h2>";
+
+        // Boucle for = boucle avec compteur numérique
+        // 3 infos dans la boucle for, initialisation du compteur, condition d'entrée, incrémentation/décrémentation
+
+        for ($i = 0; $i < 10; $i++) {
+            echo "$i ";
+        }
+
+        for ($i = 0; $i < 10; $i++) :
+            echo "$i ";
+        endfor;
+
+        separateur();
+
+        // Boucle while = boucle pas forcément avec un compteur numérique
+
+        $i = 0;
+        while ($i < 10) {
+            echo "$i ";
+            $i++;
+        }
+
+        $i = 0;
+        while ($i < 10) :
+            echo "$i ";
+            $i++;
+        endwhile;
+
+        $i = 0;
+        while ($i < 100) {
+            echo "$i ";
+            if ($i == 20) {
+                break; // On sort de la boucle
+            }
+            $i++;
+        }
+
+        separateur();
+
+        // Boucle do while = test de la condition à la fin de la boucle
+        // Ce qui veut dire, le code de la boucle s'exécute toujours au moins une fois 
+        $i = 10; // i = 10 donc la condition n'est pas respectée mais, on exécute quand meme une fois le do avant de tester la condition
+        do {
+            echo "$i ";
+        } while ($i < 10);
+
+
+        separateur();
+        // EXERCICES : 
+        for($i = 0; $i < 10; $i++) {
+            echo $i . " - ";
+        }
+
+        // 1 - Modificer cette boucle pour ne pas avoir le tiret à la fin du 9 
+        // Actuel : 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 -
+        // Attendu : 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
+
+        // 2 - Afficher des nombres allant de 1 à 100
+
+        // 3 - Afficher des nombres allant de 1 à 100 avec le chiffre 50 en rouge 
+
+        // 4 - Afficher des nombres allant de 2000 à 1930
+
+        // 5 - Afficher le titre suivant "<h2> Je m'affiche pour la Nème fois</h2>"
+            // Remplacer le N avec la valeur du tour de boucle pour écrire 1ère 2ème 3ème etc 
 
 
 
-        // Fermeture de la balise PHP
+            // Fermeture de la balise PHP
         ?>
     </div>
 
