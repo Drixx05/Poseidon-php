@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 /* 
 
     EXERCICE GET : 
@@ -18,7 +19,6 @@ session_start();
 */
 
 
-// Initialisation du tableau d'utilisateurs
 if (!isset($_SESSION['users'])) {
     $_SESSION['users'] = [
         ['id' => 1, 'nom' => 'Dupont', 'email' => 'dupont@example.com'],
@@ -26,4 +26,63 @@ if (!isset($_SESSION['users'])) {
         ['id' => 3, 'nom' => 'Martin', 'email' => 'martin@example.com'],
     ];
 }
+
+if (isset($_GET['action']) && $_GET['action'] === 'supprimer') {
+    $_SESSION['users'] = array_filter($_SESSION['users'], function ($user) {
+        return $user['id'] != $_GET['id'];
+    });
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des utilisateurs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Gestion des utilisateurs</h1>
+
+    <?php if (isset($_GET['action']) && $_GET['action'] === 'voir') : ?>
+        <h2>Fiche de <?= $_GET['nom'] ?></h2>
+        <p>Email : <?= $_GET['email'] ?></p>
+        <a href="?" class="btn btn-secondary">Retour</a>
+
+    <?php elseif (isset($_GET['action']) && $_GET['action'] === 'modifier') : ?>
+        <h2>Modifier <?= $_GET['nom'] ?></h2>
+        <input type="text" value="<?= $_GET['nom'] ?>" class="form-control mb-2">
+        <input type="email" value="<?= $_GET['email'] ?>" class="form-control mb-2">
+        <a href="?" class="btn btn-secondary">Retour</a>
+
+    <?php else : ?>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_SESSION['users'] as $user) : ?>
+                    <tr>
+                        <th><?= $user['id'] ?></th>
+                        <td><?= $user['nom'] ?></td>
+                        <td><?= $user['email'] ?></td>
+                        <td>
+                            <a href="?action=voir&id=<?= $user['id'] ?>&nom=<?= $user['nom'] ?>&email=<?= $user['email'] ?>" class="btn btn-info">Voir</a>
+                            <a href="?action=modifier&id=<?= $user['id'] ?>&nom=<?= $user['nom'] ?>&email=<?= $user['email'] ?>" class="btn btn-warning">Modifier</a>
+                            <a href="?action=supprimer&id=<?= $user['id'] ?>" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+
+</body>
+</html>
+
+<?php session_destroy(); ?>
