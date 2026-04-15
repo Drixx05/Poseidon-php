@@ -27,6 +27,56 @@ if (!isset($_SESSION['users'])) {
         ['id' => 3, 'nom' => 'Martin', 'email' => 'martin@example.com'],
     ];
 }
+
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $action = $_GET['action'];
+    $id = $_GET['id'];
+
+    $user = null;
+    foreach ($_SESSION['users'] as $user) {
+        if ($user['id'] == $id) {
+            $user = $user;
+            break;
+        }
+    }
+
+    if ($user) {
+        switch ($action) {
+            case 'voir':
+                echo "Nom: " . $user['nom'] . "<br>";
+                echo "Email: " . $user['email'] . "<br>";
+                break;
+
+            case 'modifier':
+                echo "<h2>Modifier l'utilisateur</h2>";
+                echo "<form method='post' action=''>";
+                echo "<div class='mb-3'>";
+                echo "<label for='nom' class='form-label'>Nom</label>";
+                echo "<input type='text' class='form-control' id='nom' name='nom' value='" . $user['nom'] . "'>";
+                echo "</div>";
+                echo "<div class='mb-3'>";
+                echo "<label for='email' class='form-label'>Email</label>";
+                echo "<input type='email' class='form-control' id='email' name='email' value='" . $user['email'] . "'>";
+                echo "</div>";
+                echo "<button type='submit' class='btn btn-primary'>Enregistrer</button>";
+                echo "</form>";
+                break;
+
+            case 'supprimer':
+                echo "<h2>Supprimer l'utilisateur</h2>";
+                echo "<p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>";
+                echo "<a href='?id=" . $user['id'] . "&action=confirmer_suppression' class='btn btn-danger'>Confirmer</a>";
+
+                break;
+
+            default:
+                echo "Action inconnue.";
+        }
+    } else {
+        echo "Utilisateur non trouvé.";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -58,9 +108,9 @@ if (!isset($_SESSION['users'])) {
                         <td><?= $user["nom"] ?></td>
                         <td><?= $user["email"] ?></td>
                         <td>
-                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-info btn-sm">Voir</a>
-                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-danger btn-sm">Supprimer</a>
+                            <a href="?id=<?= $user["id"] ?>&action=voir" class="btn btn-info btn-sm">Voir</a>
+                            <a href="?id=<?= $user["id"] ?>&action=modifier" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="?id=<?= $user["id"] ?>&action=supprimer" class="btn btn-danger btn-sm">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -71,3 +121,4 @@ if (!isset($_SESSION['users'])) {
 </body>
 
 </html>
+<?php session_destroy(); ?>
