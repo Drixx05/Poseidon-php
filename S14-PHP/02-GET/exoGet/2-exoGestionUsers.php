@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// var_dump($_SESSION);
 
 /* 
 
@@ -26,63 +27,47 @@ if (!isset($_SESSION['users'])) {
         ['id' => 3, 'nom' => 'Martin', 'email' => 'martin@example.com'],
     ];
 }
-
-if (isset($_GET['action']) && $_GET['action'] === 'supprimer') {
-    $_SESSION['users'] = array_filter($_SESSION['users'], function ($user) {
-        return $user['id'] != $_GET['id'];
-    });
-}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des utilisateurs</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Gestion des utilisateurs</h1>
 
-    <?php if (isset($_GET['action']) && $_GET['action'] === 'voir') : ?>
-        <h2>Fiche de <?= $_GET['nom'] ?></h2>
-        <p>Email : <?= $_GET['email'] ?></p>
-        <a href="?" class="btn btn-secondary">Retour</a>
-
-    <?php elseif (isset($_GET['action']) && $_GET['action'] === 'modifier') : ?>
-        <h2>Modifier <?= $_GET['nom'] ?></h2>
-        <input type="text" value="<?= $_GET['nom'] ?>" class="form-control mb-2">
-        <input type="email" value="<?= $_GET['email'] ?>" class="form-control mb-2">
-        <a href="?" class="btn btn-secondary">Retour</a>
-
-    <?php else : ?>
-        <table class="table">
-            <thead class="thead-dark">
+<body class="bg-light">
+    <div class="container my-5">
+        <h1 class="mb-4">Liste des utilisateurs</h1>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($_SESSION['users'] as $user) : ?>
+                <?php foreach ($_SESSION["users"] as $user) : ?>
                     <tr>
-                        <th><?= $user['id'] ?></th>
-                        <td><?= $user['nom'] ?></td>
-                        <td><?= $user['email'] ?></td>
+                        <td><?= $user["id"] ?></td>
+                        <td><?= $user["nom"] ?></td>
+                        <td><?= $user["email"] ?></td>
                         <td>
-                            <a href="?action=voir&id=<?= $user['id'] ?>&nom=<?= $user['nom'] ?>&email=<?= $user['email'] ?>" class="btn btn-info">Voir</a>
-                            <a href="?action=modifier&id=<?= $user['id'] ?>&nom=<?= $user['nom'] ?>&email=<?= $user['email'] ?>" class="btn btn-warning">Modifier</a>
-                            <a href="?action=supprimer&id=<?= $user['id'] ?>" class="btn btn-danger">Supprimer</a>
+                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-info btn-sm">Voir</a>
+                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-danger btn-sm">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-    <?php endif; ?>
-
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
 
-<?php session_destroy(); ?>
+</html>
