@@ -549,7 +549,7 @@
         // Malgré que PHP soit un langage flexible, si je lui fourni des types trop différents, alors j'aurai des erreurs de type !
         echo identite("Pierra", 38, 64);
 
-        // Depuis PHP 9 on peut aussi appeler les arguments par leur nom, ce qui évite de tous les citer (surtout lorsqu'on a de nombreux param facultatifs)
+        // Depuis PHP 8 on peut aussi appeler les arguments par leur nom, ce qui évite de tous les citer (surtout lorsqu'on a de nombreux param facultatifs)
         echo identite(nom: "Lolo", cp: 34000);
 
         echo "<h2>09 - Structure itérative : Boucles </h2>";
