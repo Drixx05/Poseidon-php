@@ -14,7 +14,11 @@
 
 */
 
+
+
 session_start();
+
+var_dump($_SESSION);
 $errors = [];
 $success = false;
 
@@ -39,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Les mots de passe ne correspondent pas.";
     }
 
-    // Si il n'y a pas d'erreurs, on enregistre l'utilisateur
+    // S'il n'y a pas d'erreurs, on enregistre l'utilisateur
     if (empty($errors)) {
         $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $_SESSION['users'][$_POST['pseudo']] = [
