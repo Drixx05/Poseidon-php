@@ -108,9 +108,9 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
                         <td><?= $user["nom"] ?></td>
                         <td><?= $user["email"] ?></td>
                         <td>
-                            <a href="?id=<?= $user["id"] ?>&action=voir" class="btn btn-info btn-sm">Voir</a>
-                            <a href="?id=<?= $user["id"] ?>&action=modifier" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="?id=<?= $user["id"] ?>&action=supprimer" class="btn btn-danger btn-sm">Supprimer</a>
+                            <a href="2-exoUser.php?action=voir&id=<?= $user["id"] ?>" class="btn btn-info btn-sm">Voir</a>
+                            <a href="2-exoUser.php?action=modifier&id=<?= $user["id"] ?>" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="2-exoUser.php?action=supprimer&id=<?= $user["id"] ?>" class="btn btn-danger btn-sm">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
