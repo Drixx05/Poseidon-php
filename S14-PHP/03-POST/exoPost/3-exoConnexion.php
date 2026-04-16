@@ -18,30 +18,33 @@ session_start();
 
 $loginError = ""; // Message de connexion échouée
 $loginSuccess = ""; // Message de connexion réussie
-
-
+$userFound = null;
 // Verif du post, donc le if global request method etc 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pseudo']) && isset($_POST['password'])) {
 
-// Ensuite récupération pseudo et password du post 
+    $pseudo = trim($_POST['pseudo']);
+    $password = trim($_POST['password']);
 
-// Trouver si le user existe avec une boucle sur les users (dans la session)
-
-// Une fois le users trouvé, on compare le mot de passe avec password_verify
-
-// Si password_verify me donne true alors le password est bon !
-
-// Je peux donc insérer le user matché dans $_SESSION["connected_user"]
-
+    $userFound = $_SESSION['users'][$pseudo] ?? null;
+        if (!$userFound || !password_verify($password, $userFound['password'])) {
+            $loginError = "Mauvaises informations de connexion.";
+        } else {
+            $loginSuccess = "Connexion réussie ! Bienvenue, " . $userFound['pseudo'] . ".";
+         $_SESSION['connected_user'] = $userFound; // Stockage du user dans la session
+        }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="row">
@@ -69,9 +72,10 @@ $loginSuccess = ""; // Message de connexion réussie
                 </form>
             </div>
         </div>
-        <?php var_dump($_SESSION);?>
+        <?php var_dump($_SESSION); ?>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
