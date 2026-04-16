@@ -59,9 +59,9 @@ if (!isset($_SESSION['users'])) {
                         <td><?= $user["nom"] ?></td>
                         <td><?= $user["email"] ?></td>
                         <td>
-                            <a href="adresse.php?param=valeur&param=valeur" class="btn btn-info btn-sm">Voir</a>
-                            <a href="" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="" class="btn btn-danger btn-sm">Supprimer</a>
+                            <a href="2-exoUser.php?action=voir&id=<?= $user["id"] ?>" class="btn btn-info btn-sm">Voir</a>
+                            <a href="2-exoUser.php?action=modifier&id=<?= $user["id"] ?>" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="2-exoUser.php?action=supprimer&id=<?= $user["id"] ?>" class="btn btn-danger btn-sm">Supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
