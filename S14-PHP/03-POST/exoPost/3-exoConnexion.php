@@ -15,3 +15,63 @@
 */ 
 
 session_start();
+
+$loginError = ""; // Message de connexion échouée
+$loginSuccess = ""; // Message de connexion réussie
+
+
+// Verif du post, donc le if global request method etc 
+
+// Ensuite récupération pseudo et password du post 
+
+// Trouver si le user existe avec une boucle sur les users (dans la session)
+
+// Une fois le users trouvé, on compare le mot de passe avec password_verify
+
+// Si password_verify me donne true alors le password est bon !
+
+// Je peux donc insérer le user matché dans $_SESSION["connected_user"]
+
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h1>Connexion</h1>
+
+                <?php if ($loginError): ?>
+                    <div class="alert alert-danger"><?= $loginError ?></div>
+                <?php endif; ?>
+
+                <?php if ($loginSuccess): ?>
+                    <div class="alert alert-success"><?= $loginSuccess ?></div>
+                <?php endif; ?>
+
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <label for="pseudo" class="form-label">Pseudo</label>
+                        <input type="text" class="form-control" id="pseudo" name="pseudo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </form>
+            </div>
+        </div>
+        <?php var_dump($_SESSION);?>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
