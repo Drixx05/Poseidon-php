@@ -18,7 +18,7 @@ session_start();
 
 
 */
-
+    $user = null;
 
 if (!isset($_SESSION['users'])) {
     $_SESSION['users'] = [
@@ -32,10 +32,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
     $id = $_GET['id'];
 
-    $user = null;
-    foreach ($_SESSION['users'] as $user) {
-        if ($user['id'] == $id) {
-            $user = $user;
+
+    foreach ($_SESSION['users'] as $u) {
+        if ($u['id'] == $id) {
+            $user = $u;
             break;
         }
     }
