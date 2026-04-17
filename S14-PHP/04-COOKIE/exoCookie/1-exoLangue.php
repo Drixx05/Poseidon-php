@@ -14,52 +14,83 @@
                     - 5 Bien faire en sorte que le choix de langue soit cohérent (quelle serait la priorité entre le cookie, le choix utilisateur, le choix par défaut)
 
 */
-if (!isset($_COOKIE["langue"])) {
-    setcookie("langue", "fr", time() + (365 * 24 * 60 * 60));
-}
+
+// On peut éventuellement se servir de la langue du navigateur comme langue par défaut
+// On le trouve dans $_SERVER à l'indice HTTP_ACCEPT_LANGUAGE
+// var_dump($_SERVER);
 
 if (isset($_GET["langue"])) {
-    $selectedLangue = $_GET["langue"];
-    setcookie("langue", $selectedLangue, time() + (365 * 24 * 60 * 60));
-    header("Location: 1-exoLangue.php");
-} else if (isset($_COOKIE["langue"])) {
-    $langue = $_COOKIE["langue"];
-    setcookie("langue", $langue, time() + (365 * 24 * 60 * 60));
-} else {
-    $langue = "fr";
+    $langue = $_GET["langue"];
+    setcookie("langue", $langue, time() + 365 * 24 * 3600); // Cookie valide pour un an
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit;
 }
-$bonjour = match ($langue) {
-    'fr' => "Bonjour !",
-    'en' => "Hello!",
-    'es' => "¡Hola!",
-    'jp' => "こんにちは！",
-    default => "Langue non reconnue."
-};
+
+// Vérification du cookie 
+$langue = $_COOKIE["langue"] ?? "fr";
+setcookie("langue", $langue, time() + 365 * 24 * 3600);
+
+
+$phrases = [
+    "fr" => "Bonjour, bienvenue sur notre site",
+    "en" => "Hello, welcome to our website",
+    "es" => "Hola, bienvenido a nuestro sitio",
+    "it" => "Ciao, benvenuto nel nostro sito",
+    "jp" => "こんにちは、私たちのサイトへようこそ"
+];
+
+$langueAffichage = [
+    "fr" => "Français",
+    "en" => "Anglais",
+    "es" => "Espagnol",
+    "it" => "Italien",
+    "jp" => "Japonais"
+];
+
+$langueSelectionnee = $langueAffichage[$langue];
+$message = $phrases[$langue];
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Choix de la langue</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class="container mt-5">
+        <h1>Choisissez votre langue</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Langues
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="?langue=fr">Français</a></li>
+                    <li><a class="dropdown-item" href="?langue=en">Anglais</a></li>
+                    <li><a class="dropdown-item" href="?langue=es">Espagnol</a></li>
+                    <li><a class="dropdown-item" href="?langue=it">Italien</a></li>
+                    <li><a class="dropdown-item" href="?langue=jp">Japonais</a></li>
+                </ul>
+            </div>
 
-    <body>
-        <div class="container mt-5">
-            <h1>Choisir une langue</h1>
-            <p>
-                <a href="?langue=fr" class="btn btn-light <?= $langue === 'fr' ? 'disabled' : ''; ?>">Français</a>
-                <a href="?langue=en" class="btn btn-dark <?= $langue === 'en' ? 'disabled' : ''; ?>">English</a>
-                <a href="?langue=es" class="btn btn-primary <?= $langue === 'es' ? 'disabled' : ''; ?>">Español</a>
-                <a href="?langue=jp" class="btn btn-secondary <?= $langue === 'jp' ? 'disabled' : ''; ?>">日本語</a>
-            </p>
-            <p>Langue actuelle : <strong><?= ucfirst($langue) ?></strong></p>
-            <p><?= $bonjour ?></p>
+            <div class="alert alert-info mb-0">
+                Langue sélectionnée : <strong><?= $langueSelectionnee ?></strong>
+            </div>
         </div>
-    </body>
+
+        <div class="mt-4 p-3 bg-light border">
+            <h2>Message :</h2>
+            <p><?= $message ?></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
 </html>

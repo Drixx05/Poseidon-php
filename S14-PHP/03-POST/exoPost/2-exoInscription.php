@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pseudo"], $_POST["emai
     // Si pas d'erreurs, ma variable $errors est vide, c'est ce qui va me servir de controle pour lancer l'insertion
     if (empty($errors)) {
         $passwordHashed = password_hash($password, PASSWORD_ARGON2ID);
-        $_SESSION["users"][] = ["pseudo" => $pseudo, "email" => $email, "password" => $passwordHashed];
+        $_SESSION["users"][] = ["pseudo" => $pseudo, "email" => $email, "password" => $passwordHashed, "role" => "user"];
         $success = "Inscription réussie ! Rendez vous à la page de connexion";
     }
 }
