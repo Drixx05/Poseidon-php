@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudo"], $_POST["pas
             $loginSuccess = "Connexion réussie ! Bienvenue, " . $userFound['pseudo'] . ".";
          $_SESSION['connected_user'] = $userFound; // Stockage du user dans la session
         }
-}
 ?>
 
 <!DOCTYPE html>

@@ -13,53 +13,6 @@
                     - 5 Si pas ok, afficher des messages d'erreur en rapport avec les problèmes de saisies (et on conserve les saisies utilisateurs pour lui éviter de tout resaisir)
 
 */
-<<<<<<< HEAD
-
-
-
-session_start();
-
-var_dump($_SESSION);
-$errors = [];
-$success = false;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // Validation du pseudo
-    if (empty($_POST['pseudo']) || strlen($_POST['pseudo']) < 3) {
-        $errors[] = "Le pseudo doit contenir au moins 3 caractères.";
-    } elseif (isset($_SESSION['users'][$_POST['pseudo']])) {
-        $errors[] = "Ce pseudo est déjà pris.";
-    }
-
-    // Validation de l'email
-    if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "L'email n'est pas valide.";
-    }
-
-    // Validation du mot de passe
-    if (empty($_POST['password']) || strlen($_POST['password']) < 6) {
-        $errors[] = "Le mot de passe doit contenir au moins 6 caractères.";
-    } elseif ($_POST['password'] !== $_POST['confirm_password']) {
-        $errors[] = "Les mots de passe ne correspondent pas.";
-    }
-
-    // S'il n'y a pas d'erreurs, on enregistre l'utilisateur
-    if (empty($errors)) {
-        $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $_SESSION['users'][$_POST['pseudo']] = [
-            'email' => $_POST['email'],
-            'password' => $hashedPassword
-        ];
-        $success = true;
-    }
-}
-?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-=======
 
 session_start();
 
@@ -128,7 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pseudo"], $_POST["emai
 
 <!DOCTYPE html>
 <html lang="fr">
->>>>>>> upstream/main
 
 <head>
     <meta charset="UTF-8">
