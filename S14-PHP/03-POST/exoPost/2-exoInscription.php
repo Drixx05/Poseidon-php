@@ -85,28 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pseudo"], $_POST["emai
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Document</title>
-</head>
-
-<body>
-    <form method="post" action="">
-        <input type="text" name="pseudo" placeholder="Votre pseudo" value="<?php if (isset($_POST['pseudo'])) echo $_POST['pseudo']; ?>"><br><br>
-        <input type="email" name="email" placeholder="Votre email" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>"><br><br>
-        <input type="password" name="password" placeholder="Votre mot de passe"><br><br>
-        <input type="password" name="confirm_password" placeholder="Confirmez votre mot de passe"><br><br>
-        <input type="submit" value="S'inscrire">
-        <?php if (!empty($errors)) : ?>
-            <ul style="color: red;">
-                <?php foreach ($errors as $error) : ?>
-                    <li><?= $error; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php elseif ($success) : ?>
-            <p style='color: green;'>Inscription réussie !</p>
-        <?php endif; ?>
-    </form>
-=======
     <title>Inscription</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -162,7 +140,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pseudo"], $_POST["emai
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> upstream/main
 </body>
 
 </html>
