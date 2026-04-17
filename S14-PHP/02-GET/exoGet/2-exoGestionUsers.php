@@ -1,6 +1,17 @@
 <?php
 session_start();
 
+// Si jamais il devait y avoir un controle de sécurité sur cette page admin, voilà comment on procèderait
+
+// Si le role n'existe pas dans la session ? C'est à dire il n'est pas connecté !
+// Si le role existe mais est différent de admin, alors pas le droit d'accéder à cette page non plus
+// if(!isset($_SESSION["role"]) || $_SESSION["role"] != "admin" ) {
+//     // On redirige vers l'index
+//     header("location:index.php");
+//     // On exit le code pour que la suite du code ne s'execute pas (0 visibilité sur la page en cours)
+//     exit;
+// }
+
 // var_dump($_SESSION);
 
 /* 

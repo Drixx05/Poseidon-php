@@ -20,30 +20,32 @@ $loginError = ""; // Message de connexion échouée
 $loginSuccess = ""; // Message de connexion réussie
 
 // Verif du post, donc le if global request method etc 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["pseudo"], $_POST["password"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pseudo"], $_POST["password"])) {
 
-    // Ensuite récupération pseudo et password du post     
-    $pseudo = trim($_POST['pseudo']);
-    $password = trim($_POST['password']);
+    // Ensuite récupération pseudo et password du post 
+    $pseudo = trim($_POST["pseudo"]);
+    $password = trim($_POST["password"]);
 
-    // Trouver si le user existe avec une boucle sur les users (dans la session)    
-    // Vérification des informations d'identification
-    foreach ($_SESSION['users'] as $user) {
-        // Une fois le users trouvé, on compare le mot de passe avec password_verify    
-        if ($user['pseudo'] === $pseudo && password_verify($password, $user['password'])) {
+    // Trouver si le user existe avec une boucle sur les users (dans la session)
+    foreach ($_SESSION["users"] as $user) {
+        if ($user["pseudo"] == $pseudo) {
+            $loginError = "";
+
+            // Une fois le users trouvé, on compare le mot de passe avec password_verify
+
             // Si password_verify me donne true alors le password est bon !
 
-            // Je peux donc insérer le user matché dans $_SESSION["connected_user"]    
-            $_SESSION['logged_in'] = $pseudo;
-            $_SESSION['connected_user'] = $user; // On stocke les infos de l'utilisateur dans la session
-            unset($_SESSION["connected_user"]["password"]);
-            $loginSuccess = "Connexion réussie. Bienvenue, $pseudo !";
+            // Je peux donc insérer le user matché dans $_SESSION["connected_user"]
+            if (password_verify($password, $user["password"])) {
+                $loginSuccess = "Le mot de passe est correct. Utilisateur connecté.";
+                $_SESSION["connected_user"] = ["pseudo" => $pseudo, "email" => $user["email"]];
+            } else {
+                $loginError = "Le pseudo ou le mot de passe est incorrect. Veuillez réessayer.";
+            }
             break;
+        } else {
+            $loginError = "Le pseudo ou le mot de passe est incorrect. Veuillez réessayer.";
         }
-    }
-
-    if (empty($loginSuccess)) {
-        $loginError = "Pseudo ou mot de passe incorrect.";
     }
 }
 
