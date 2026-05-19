@@ -48,3 +48,57 @@ INSERT INTO emprunt (id_emprunt, id_livre, id_abonne, date_sortie, date_rendu) V
 (6, 105, 2, '2017-01-02', '2017-01-15'),
 (7, 105, 3, '2017-02-15', NULL),
 (8, 100, 2, '2017-02-20', NULL);
+
+-- Quels sont les id_livre des livres qui n'ont pas été rendu à la bibliotheque ? 
+SELECT id_livre FROM emprunt WHERE date_rendu IS NULL;
+-- ATTENTION la valeur NULL se test avec IS NULL ou IS NOT NULL
++----------+
+| id_livre |
++----------+
+|      105 |
+|      100 |
++----------+
+
+-- Pour avoir les titres des livres... Cette information se trouvant sur une autre table...
+-- 2 possibilités ! 
+-- Requêtes imbriquées (pas le choix préféré)
+-- Requêtes en jointure (le choix préféré !)
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+---------- REQUETES IMBRIQUEES -------------------------------------------
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+-- Quels sont les titres des livres qui n'ont pas été rendu à la bibliothèque ? 
+SELECT titre FROM livre WHERE id_livre IN (100, 105); -- Ici je mets en brut, les id que j'ai trouvé à la requête précédente
++-------------------------+
+| titre                   |
++-------------------------+
+| Une vie                 |
+| Les Trois Mousquetaires |
++-------------------------+
+
+-- En fait, une requête imbriquée c'est le fait de pouvoir mettre une requête à l'intérieur d'une autre !
+-- On a besoin du résultat de la "sous requete" pour mener à bien la première requête
+SELECT titre FROM livre WHERE id_livre IN (SELECT id_livre FROM emprunt WHERE date_rendu IS NULL); 
++-------------------------+
+| titre                   |
++-------------------------+
+| Une vie                 |
+| Les Trois Mousquetaires |
++-------------------------+
+-- Une requête imbriquée m'enverra très régulièrement plusieurs résultats on utilisera toujours IN et non pas = 
+
+-- EXERCICE 1: Quels sont les prénoms des abonnés n'ayant pas rendu un livre à la bibliotheque.
+-- EXERCICE 2 : Nous aimerions connaitre le(s) n° des livres empruntés par Chloé
+-- EXERCICE 3: Affichez les prénoms des abonnés ayant emprunté un livre le 07/12/2016.
+-- EXERCICE 4: combien de livre Guillaume a emprunté à la bibliotheque ?
+-- EXERCICE 5: Affichez la liste des abonnés ayant déjà emprunté un livre d'Alphonse Daudet
+-- EXERCICE 6: Nous aimerions connaitre les titres des livres que Chloe a emprunté à la bibliotheque.
+-- EXERCICE 7: Nous aimerions connaitre les titres des livres que Chloe n'a pas emprunté à la bibliotheque.
+-- EXERCICE 8: Nous aimerions connaitre les titres des livres que Chloe a emprunté à la bibliotheque ET qui n'ont pas été rendu.
+-- EXERCICE 9 :  Qui a emprunté le plus de livre à la bibliotheque ?
+
+
+
+
