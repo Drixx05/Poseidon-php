@@ -526,6 +526,10 @@ SELECT * FROM employes ORDER BY service;
 |         739 | Thierry     | Desprez  | m    | secretariat   | 2013-07-17    |    1500 |
 +-------------+-------------+----------+------+---------------+---------------+---------+
 
+-- Il est possible de mettre une condition sur un GROUP BY en utilisant HAVING 
+-- Nombre d'employes par service, pour les services ayant plus de 2 employés 
+SELECT COUNT(*) as nbr, service FROM employes GROUP BY service HAVING COUNT(*) > 2;
+
 
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
