@@ -90,15 +90,82 @@ SELECT titre FROM livre WHERE id_livre IN (SELECT id_livre FROM emprunt WHERE da
 -- Une requête imbriquée m'enverra très régulièrement plusieurs résultats on utilisera toujours IN et non pas = 
 
 -- EXERCICE 1: Quels sont les prénoms des abonnés n'ayant pas rendu un livre à la bibliotheque.
+SELECT prenom FROM abonne WHERE id_abonne IN (SELECT id_abonne FROM emprunt WHERE date_rendu IS NULL);
++--------+
+| prenom |
++--------+
+| Benoit |
+| Chloe  |
++--------+
+
 -- EXERCICE 2 : Nous aimerions connaitre le(s) n° des livres empruntés par Chloé
+SELECT id_livre FROM emprunt WHERE id_abonne = (SELECT id_abonne FROM abonne WHERE prenom = 'Chloe');
++----------+
+| id_livre |
++----------+
+|      100 |
+|      105 |
++----------+
 -- EXERCICE 3: Affichez les prénoms des abonnés ayant emprunté un livre le 07/12/2016.
+SELECT prenom FROM abonne WHERE id_abonne IN (SELECT id_abonne FROM emprunt WHERE date_sortie = '2016-12-07');
++-----------+
+| prenom    |
++-----------+
+| Guillaume |
+| Benoit    |
++-----------+
+
 -- EXERCICE 4: combien de livre Guillaume a emprunté à la bibliotheque ?
+SELECT COUNT(*) AS nb_emprunt_guillaume FROM emprunt WHERE id_abonne = (SELECT id_abonne FROM abonne WHERE prenom = 'Guillaume');
++----------------------+
+| nb_emprunt_guillaume |
++----------------------+
+|                    2 |
++----------------------+
+
 -- EXERCICE 5: Affichez la liste des abonnés ayant déjà emprunté un livre d'Alphonse Daudet
+SELECT prenom FROM abonne WHERE id_abonne IN (SELECT id_abonne FROM emprunt WHERE id_livre IN (SELECT id_livre FROM livre WHERE auteur = 'ALPHONSE DAUDET'));
++--------+
+| prenom |
++--------+
+| Laura  |
++--------+
+
 -- EXERCICE 6: Nous aimerions connaitre les titres des livres que Chloe a emprunté à la bibliotheque.
+SELECT titre FROM livre WHERE id_livre IN (SELECT id_livre FROM emprunt WHERE id_abonne = (SELECT id_abonne FROM abonne WHERE prenom = 'Chloe'));
++-------------------------+
+| titre                   |
++-------------------------+
+| Une vie                 |
+| Les Trois Mousquetaires |
++-------------------------+
+
 -- EXERCICE 7: Nous aimerions connaitre les titres des livres que Chloe n'a pas emprunté à la bibliotheque.
+SELECT titre FROM livre WHERE id_livre NOT IN (SELECT id_livre FROM emprunt WHERE id_abonne = (SELECT id_abonne FROM abonne WHERE prenom = 'Chloe'));
++-----------------+
+| titre           |
++-----------------+
+| Bel-Ami         |
+| Le pere Goriot  |
+| Le Petit chose  |
+| La Reine Margot |
++-----------------+
+
 -- EXERCICE 8: Nous aimerions connaitre les titres des livres que Chloe a emprunté à la bibliotheque ET qui n'ont pas été rendu.
+SELECT titre FROM livre WHERE id_livre IN (SELECT id_livre FROM emprunt WHERE id_abonne = (SELECT id_abonne FROM abonne WHERE prenom = 'Chloe') AND date_rendu IS NULL);
++-------------------------+
+| titre                   |
++-------------------------+
+| Les Trois Mousquetaires |
++-------------------------+
+
 -- EXERCICE 9 :  Qui a emprunté le plus de livre à la bibliotheque ?
+SELECT prenom FROM abonne WHERE id_abonne = (SELECT id_abonne FROM emprunt GROUP BY id_abonne HAVING COUNT(*) >= (SELECT COUNT(*) FROM emprunt GROUP BY id_abonne));
 
-
++--------+
+| prenom |
++--------+
+| Benoit |
++--------+
 
 
