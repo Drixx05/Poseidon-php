@@ -421,7 +421,9 @@ FROM livre l
 LEFT JOIN emprunt e ON l.id_livre = e.id_livre 
 WHERE e.id_livre IS NULL;
 
-
+-- Ici dans l'exo 3 ce que l'on souhaite faire c'est un FULL JOIN, pas de chance, il n'existe pas en MySQL (mais existe dans d'autres SGBD tel que PostGre)
+-- On doit simuler un FULL JOIN et pour ça on peut utiliser UNION, UNION nous permet de fusionner deux résultats de requêtes ensemble
+-- On fusionne donc une jointure externe vers abonne avec une jointure externe vers livre, comme ça on arrive à l'équivalent du FULL JOIN
 SELECT a.prenom, e.id_livre, l.auteur, l.titre 
 FROM abonne a 
 LEFT JOIN emprunt e ON a.id_abonne = e.id_abonne 
