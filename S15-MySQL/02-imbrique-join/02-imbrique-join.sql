@@ -379,5 +379,69 @@ ORDER BY a.prenom;
 
 
 -- EXERCICE 1 : Affichez tous les livres sans exception puis les id_abonne ayant emprunté ces livres si c'est le cas
+SELECT l.titre, e.id_abonne
+FROM livre l
+LEFT JOIN emprunt e ON e.id_livre = l.id_livre
+ORDER BY l.titre;
++-------------------------+-----------+
+| titre                   | id_abonne |
++-------------------------+-----------+
+| Bel-Ami                 |         2 |
+| La Reine Margot         |         1 |
+| Le pere Goriot          |      NULL |
+| Le Petit chose          |         4 |
+| Les Trois Mousquetaires |         3 |
+| Les Trois Mousquetaires |         2 |
+| Une vie                 |         2 |
+| Une vie                 |         3 |
+| Une vie                 |         1 |
++-------------------------+-----------+
+
 -- EXERCICE 2 : Affichez tous les prénoms des abonnés et s'ils ont fait des emprunts, affichez les id_livre, auteur et titre
+SELECT a.prenom, e.id_livre, l.auteur, l.titre
+FROM abonne a
+LEFT JOIN emprunt e ON e.id_abonne = a.id_abonne
+LEFT JOIN livre l ON l.id_livre = e.id_livre
+ORDER BY a.prenom;
+
++-----------+----------+-------------------+-------------------------+
+| prenom    | id_livre | auteur            | titre                   |
++-----------+----------+-------------------+-------------------------+
+| Antonin   |     NULL | NULL              | NULL                    |
+| Benoit    |      100 | GUY DE MAUPASSANT | Une vie                 |
+| Benoit    |      105 | ALEXANDRE DUMAS   | Les Trois Mousquetaires |
+| Benoit    |      101 | GUY DE MAUPASSANT | Bel-Ami                 |
+| Chloe     |      105 | ALEXANDRE DUMAS   | Les Trois Mousquetaires |
+| Chloe     |      100 | GUY DE MAUPASSANT | Une vie                 |
+| Guillaume |      104 | ALEXANDRE DUMAS   | La Reine Margot         |
+| Guillaume |      100 | GUY DE MAUPASSANT | Une vie                 |
+| Laura     |      103 | ALPHONSE DAUDET   | Le Petit chose          |
++-----------+----------+-------------------+-------------------------+
+
 -- EXERCICE 3 : Affichez tous les prénoms des abonnés et s'ils ont fait des emprunts, affichez les id_livre, auteur et titre ainsi que les livres non empruntés :)
+
+SELECT a.prenom, e.id_livre, l.auteur, l.titre
+FROM emprunt e
+RIGHT JOIN abonne a ON e.id_abonne = a.id_abonne
+LEFT JOIN livre l ON l.id_livre = e.id_livre
+UNION
+SELECT a.prenom, l.id_livre, l.auteur, l.titre
+FROM emprunt e
+RIGHT JOIN livre l ON l.id_livre = e.id_livre
+LEFT JOIN abonne a ON a.id_abonne = e.id_abonne
+ORDER BY prenom;
+
++-----------+----------+-------------------+-------------------------+
+| prenom    | id_livre | auteur            | titre                   |
++-----------+----------+-------------------+-------------------------+
+| NULL      |      102 | HONORE DE BALZAC  | Le pere Goriot          |
+| Antonin   |     NULL | NULL              | NULL                    |
+| Benoit    |      100 | GUY DE MAUPASSANT | Une vie                 |
+| Benoit    |      105 | ALEXANDRE DUMAS   | Les Trois Mousquetaires |
+| Benoit    |      101 | GUY DE MAUPASSANT | Bel-Ami                 |
+| Chloe     |      105 | ALEXANDRE DUMAS   | Les Trois Mousquetaires |
+| Chloe     |      100 | GUY DE MAUPASSANT | Une vie                 |
+| Guillaume |      104 | ALEXANDRE DUMAS   | La Reine Margot         |
+| Guillaume |      100 | GUY DE MAUPASSANT | Une vie                 |
+| Laura     |      103 | ALPHONSE DAUDET   | Le Petit chose          |
++-----------+----------+-------------------+-------------------------+
