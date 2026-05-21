@@ -41,38 +41,64 @@ CALL date_du_jour() $
 
 -- - Exercice 1/ Faire une procédure stockée qui affiche toutes les informations de tous les employes
 
+<<<<<<< HEAD
+=======
+DELIMITER $
+
+>>>>>>> upstream/main
 CREATE PROCEDURE selectAllEmployes()
 BEGIN 
     SELECT * FROM employes;
 END$
 
-CALL selectAll() $
+
+CALL selectAllEmployes() $
+
 -- - Exercice 2/ Faire une PROCEDURE qui prends en param le prenom d'un employe et qui affiche le service et le salaire de l'employé
-CREATE PROCEDURE SelectServiceAndSalaire(IN prenom VARCHAR(255))
-BEGIN 
-    SELECT service, salaire FROM employes WHERE prenom = prenom;
-END$
-CALL SelectServiceAndSalaire("Jean-Pierre") $
--- - Exercice 3/ Cette année, chaque salarié va toucher 10% de son salaire en plus et une prime de 700€. Faite une procédure permettant de calculer le nouveau salaire annuel de chaque salarié et de le modifier. Le but étant d'appeler la procédure pour un salarié à la fois
-CREATE PROCEDURE AddPrime(IN id_employes INT)
+
+CREATE PROCEDURE get_employe_info(IN employe_prenom VARCHAR(50))
 BEGIN
-    UPDATE employes SET salaire = salaire * 1.1 + 700 WHERE id_employes = id_employes;
-END$
-CALL AddPrime(1) $
+    SELECT prenom, service, salaire 
+    FROM employes 
+    WHERE prenom = employe_prenom;
+END $
+
+CALL get_employe_info('Daniel')$
+
+-- - Exercice 3/ Cette année, chaque salarié va toucher 10% de son salaire en plus et une prime de 700€. Faite une procédure permettant de calculer le nouveau salaire annuel de chaque salarié et de le modifier. Le but étant d'appeler la procédure pour un salarié à la fois
+DELIMITER $
+
+CREATE PROCEDURE augmenter_salaire(IN prenom_employe VARCHAR(40))
+BEGIN
+    UPDATE employes
+    SET salaire = (salaire * 1.10) + 700
+    WHERE prenom = prenom_employe;
+END $
+
+CALL augmenter_salaire("Jean-Pierre");
+
 -- - Exercice 4/ Faire une procédure qui prends en param le prénom et indique de quel groupe il fait parti parmis les groupes suivant 
                         -- Plus de 3000e = Groupe 1 
                         -- Entre 2000 et 3000 = Groupe 2 
                         -- Entre 0 et 2000 = Groupe 3 
 
-CREATE PROCEDURE SelectGroupe(IN prenom VARCHAR(255))
+CREATE PROCEDURE groupe_employe(IN prenom_emp VARCHAR(25))
 BEGIN 
-    SELECT 
-        CASE 
-            WHEN salaire > 3000 THEN "Groupe 1"
-            WHEN salaire BETWEEN 2000 AND 3000 THEN "Groupe 2"
-            ELSE "Groupe 3"
-        END AS groupe
-    FROM employes 
-    WHERE prenom = prenom;
-END$
-CALL SelectGroupe("Jean-Pierre") $
+    DECLARE salaire_emp INT;
+    SELECT salaire FROM employes WHERE prenom=prenom_emp INTO salaire_emp;
+
+    IF salaire_emp > 3000 THEN 
+    SELECT CONCAT("L'utilisateur fait partie du Groupe 1");
+    ELSEIF salaire_emp >= 2000 AND salaire_emp <= 3000 THEN 
+    SELECT CONCAT("L'utilisateur fait partie du Groupe 2");
+    ELSEIF salaire_emp >= 0 AND salaire_emp < 2000 THEN 
+    SELECT CONCAT("L'utilisateur fait partie du Groupe 3");
+    ELSE 
+    SELECT CONCAT("Employé inconnu");
+    END IF;
+
+END $
+
+CALL groupe_employe("Jean-Pierre")$
+CALL groupe_employe("Stephanie")$
+CALL groupe_employe("Julien")$
