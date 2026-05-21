@@ -236,3 +236,18 @@ echo "Premier employé de la BDD : " . $data[0]["prenom"] . "<hr>";
 // EXERCICE : Affichez les noms et prénoms des employés dans une liste ul li  
     // Le faire avec fetch 
     // Le faire avec fetchAll 
+
+    $stmt = $pdo->query("SELECT prenom, nom FROM employes");
+    echo "<ul>";
+    while ($employe = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        echo "<li>" . $employe["prenom"] . " " . $employe["nom"] . "</li>";
+    }
+    echo "</ul>";
+
+    $stmt = $pdo->query("SELECT prenom, nom FROM employes");
+    $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo "<ul>";
+    foreach ($employes as $employe) {
+        echo "<li>" . $employe["prenom"] . " " . $employe["nom"] . "</li>";
+    }
+    echo "</ul>";
