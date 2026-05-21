@@ -89,4 +89,62 @@ SELECT calcul_tva(100);
             -- Utile si on a une fonction dont le comportement diffère en fonction des droits des utilisateurs 
 
   -- EXERCICE 1 : Le même calcul de TVA avec le choix du taux
+  DELIMITER $
+
+CREATE FUNCTION calcul_tva_param(montant_ht DECIMAL(10,2), taux_tva DECIMAL(5,2)) 
+RETURNS VARCHAR(255)
+COMMENT "Calcule la TVA et le TTC à partir d'un montant HT et d'un taux fourni (ex: 20)"
+DETERMINISTIC
+NO SQL 
+BEGIN
+    DECLARE montant_ttc DECIMAL(10,2);
+
+        SET montant_ttc = montant_ht * (1 + (taux_tva / 100));
+
+    RETURN CONCAT_WS(" | ", 
+        CONCAT("HT: ", montant_ht, "€"), 
+        CONCAT("Taux: ", taux_tva, "%"), 
+        CONCAT("TTC: ", montant_ttc, "€")
+    );
+END $
+
+DELIMITER ;
+
+-- Exemples d'appels :
+SELECT calcul_tva_param(65789, 34.33);
+
+-------------------------------------------------------------
+   CREATE FUNCTiON calcul_TVAtaux(nb INT, taux FLOAT) RETURNS TEXT -- On reçoit un argument INT et on précise que la fonction renverra du texte
+    COMMENT "Fonction permettant le calcul de la TVA"
+    READS SQL DATA
+        BEGIN 
+            RETURN CONCAT_WS(": ", "le resultat est", ROUND((nb*(1+(taux/100))), 2));
+        END $
+    DELIMITER ; 
+    SELECT calcul_TVAtaux(100,50);
+
+
   -- EXERCICE 2 : Faire une fonction qui me retourne le nombre d'employés pour un service envoyé en param de la fonction 
+
+  USE entreprise;
+
+DELIMITER $
+
+CREATE FUNCTION nombre_employes_service(nom_service VARCHAR(30)) RETURNS INT
+COMMENT "Fonction permettant de compter le nombre d'employes dans un service"
+READS SQL DATA
+BEGIN
+    DECLARE total INT;
+
+    SELECT COUNT(*) INTO total
+    FROM employes
+    WHERE service = nom_service;
+
+    RETURN total;
+END $
+
+DELIMITER ;
+
+SELECT nombre_employes_service("commercial");
+SELECT nombre_employes_service("informatique");
+
