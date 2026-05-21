@@ -234,20 +234,51 @@ echo "Premier employé de la BDD : " . $data[0]["prenom"] . "<hr>";
 
 
 // EXERCICE : Affichez les noms et prénoms des employés dans une liste ul li  
-    // Le faire avec fetch 
-    // Le faire avec fetchAll 
+// Le faire avec fetch 
 
-    $stmt = $pdo->query("SELECT prenom, nom FROM employes");
-    echo "<ul>";
-    while ($employe = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<li>" . $employe["prenom"] . " " . $employe["nom"] . "</li>";
-    }
-    echo "</ul>";
+$stmt = $pdo->query("SELECT prenom, nom FROM employes");
+echo "<ul>";
+while ($employe = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo "<li>" . $employe["nom"] . " - " . $employe["prenom"] . "</li>";
+}
+echo "</ul><hr><hr>";
 
-    $stmt = $pdo->query("SELECT prenom, nom FROM employes");
-    $employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo "<ul>";
-    foreach ($employes as $employe) {
-        echo "<li>" . $employe["prenom"] . " " . $employe["nom"] . "</li>";
-    }
-    echo "</ul>";
+// Le faire avec fetchAll 
+$stmt = $pdo->query("SELECT prenom, nom FROM employes");
+$employes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo "<ul>";
+foreach ($employes as $employe) {
+    echo "<li>" . $employe["nom"] . " - " . $employe["prenom"] . "</li>";
+}
+echo "</ul>";
+
+
+echo "<h2>06 - Requêtes préparées pour se protéger des injections SQL ! </h2>";
+
+// prepare() permet de sécuriser les requêtes pour éviter les injections SQL 
+// Si dans une requête on attend une information de l'utilisateur (par exemple une saisie de form, un clic sur un lien qui envoie des informations dans le GET) alors OBLIGATION de lancer notre requête au travers de prepare (dans le doute, on lancera TOUJOURS TOUTES nos requêtes avec prepare())
+
+$nom = "laborde"; // Information supposée reçu d'une saisie d'un form, un champ de recherche par exeple 
+
+// Première étape : Préparation de la requête 
+
+// Première syntaxe possible, avec des "?" remplaçant les valeurs attendues à réinsérer au niveau du execute 
+// Cette syntaxe bien que rapide manque de lisibilité 
+$stmt = $pdo->prepare("SELECT * FROM employes WHERE nom = ?");
+$stmt->execute([$nom]); // On fourni à execute un array qui contient les valeurs à coller à la place de nos "?"  (s'il y en a plusieurs, attention à bien les fournir dans l'ordre ! )
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
+var_dump($data);
+
+// Sur des requêtes à nombreux param, cela complexifie la lisibilité 
+// $stmt = $pdo->prepare("INSERT INTO employes (prenom, nom, sexe, service, salaire, date_embauche) VALUES (?,?,?,?,?,?)");
+// $stmt->execute([$prenom, $nom, $sexe, $service, $salaire, $date_embauche]);
+
+
+$nom = "lacaze"; // Information supposée reçu d'une saisie d'un form, un champ de recherche par exeple 
+
+// On préfèrera la façon en utilisant des "tokens"/"marqueurs nominatif"
+$stmt = $pdo->prepare("SELECT * FROM employes WHERE nom = :nom"); // On nomme les valeurs attendus par un mot précédé de ":" 
+$stmt->bindParam(":nom", $nom, PDO::PARAM_STR); // On bind une valeur à chacun de ces tokens ! Attention il faudra faire un bindParam pour chaque token ! 
+$stmt->execute(); 
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
+var_dump($data);
