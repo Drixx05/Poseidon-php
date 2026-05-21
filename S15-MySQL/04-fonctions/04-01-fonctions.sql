@@ -89,4 +89,19 @@ SELECT calcul_tva(100);
             -- Utile si on a une fonction dont le comportement diffère en fonction des droits des utilisateurs 
 
   -- EXERCICE 1 : Le même calcul de TVA avec le choix du taux
+CREATE FUNCTION calcul_tva2(nb INT, taux FLOAT) RETURNS TEXT
+COMMENT "Fonction permettant le calcul de la TVA avec un taux choisi"
+READS SQL DATA
+    BEGIN
+        RETURN CONCAT_WS(": ", "Le resultat est ", (nb*(1+(taux/100)), 2));
+    END $
+
   -- EXERCICE 2 : Faire une fonction qui me retourne le nombre d'employés pour un service envoyé en param de la fonction 
+CREATE FUNCTION nb_employes_service(service VARCHAR(255)) RETURNS INT
+COMMENT "Fonction permettant de compter le nombre d'employés dans un service"
+READS SQL DATA
+    BEGIN
+        DECLARE nb_employes INT;
+        SELECT COUNT(*) INTO nb_employes FROM employes WHERE service = service;
+        RETURN nb_employes;
+    END $
