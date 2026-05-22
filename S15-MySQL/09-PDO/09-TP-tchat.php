@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = trim($_POST['message'] ?? '');
     $erreurs = [];
 
+
+
     if (mb_strlen($pseudo) < 3) {
         $erreurs[] = "Le pseudo doit faire au moins 3 caractères.";
     } else if (mb_strlen($pseudo) > 20) {
@@ -36,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$stmt = $pdo->query("SELECT pseudo, message, date_enregistrement FROM commentaire ORDER BY date_enregistrement DESC");
+$stmt = $pdo->prepare("SELECT pseudo, message, date_enregistrement FROM commentaire ORDER BY date_enregistrement DESC");
+$stmt->execute(); 
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
 ?>
@@ -86,7 +89,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($messages as $msg) : ?>
                             <div class="mb-3">
                                 <strong><?= htmlspecialchars($msg['pseudo']) ?></strong> à posté le <small class="text-muted"><?= (new DateTime($msg['date_enregistrement']))->format('d/m/Y à H:i') ?> : </small>
-                                <p><?= nl2br(htmlspecialchars($msg['message'])) ?></p>
+                                <p><?= htmlspecialchars($msg['message']) ?></p>
                             </div>
                         <?php endforeach; ?>
                     </div>
