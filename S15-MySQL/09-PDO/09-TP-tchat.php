@@ -1,6 +1,10 @@
 <?php
+session_start();
 include __DIR__ . "/config.php";
-
+if (!isset($_SESSION['connected_user'])) {
+    header('Location: ../10-Cryptographie/exoCrypto/login.php');
+    exit;
+}
 $dsn = "mysql:unix_socket=/var/run/mysqld/mysqld.sock;dbname=" . $DB_NAME;
 $login = $DB_USER;
 $password = $DB_PASS;
@@ -72,7 +76,12 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <form method="post" action="">
                         <div class="mb-3">
                             <label for="pseudo" class="form-label">Pseudo</label>
-                            <input type="text" class="form-control w-25" id="pseudo" name="pseudo" required>
+                            <input type="text"
+                                class="form-control"
+                                id="pseudo"
+                                name="pseudo"
+                                value="<?= htmlspecialchars($_SESSION['connected_user']['pseudo']) ?>"
+                                readonly>
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
