@@ -220,9 +220,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(":message", $message, PDO::PARAM_STR);
         $stmt->execute();
 
+        // Pour éviter les attaques de force brute (des appels répétés vers le serveur par exemple des milliers de fois à la seconde)
+        // On rajoute un délais à la validation de notre form 
+        sleep(1);
+
         // Pour éviter de renvoyer une nouvelle fois le form à l'actualisation de la page, on fait un refresh de page grace à une redirection vers la meme page
         // header("location:09-TP-tchat.php");
 
+    } else {
+        // Pour éviter les attaques de force brute (des appels répétés vers le serveur par exemple des milliers de fois à la seconde)
+        // On rajoute un délais à la validation de notre form
+        sleep(1);
     }
 }
 
