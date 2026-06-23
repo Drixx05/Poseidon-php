@@ -16,3 +16,50 @@ Objectif : Créer une classe Config pour gérer la configuration générale d'un
         Une méthode statique getAppName() qui retourne le nom de l'application.
 
 */ 
+
+class Config
+{
+    const APP_NAME = "MonApplication";
+
+    public static $settings = [
+        "debug" => true,
+        "db_url" => "localhost",
+    ];
+
+    public static function setSetting($key, $value)
+    {
+        self::$settings[$key] = $value;
+    }
+
+    public static function getSetting($key)
+    {
+        if (isset(self::$settings[$key])) {
+            return self::$settings[$key];
+        }
+        return null;
+    }
+
+    public static function getAppName()
+    {
+        return self::APP_NAME;
+    }
+}
+
+echo "Nom de l'app : " . Config::getAppName();
+echo "On check le setting db_url : " . Config::getSetting("db_url");
+echo "<hr>";
+echo "On check un setting inexistant : " . Config::getSetting("db");
+
+Config::setSetting("db_user" , "pierra");
+echo "On check un setting db_user : " . Config::getSetting("db_user");
+
+var_dump(Config::$settings);
+
+
+
+
+
+
+
+
+?>
