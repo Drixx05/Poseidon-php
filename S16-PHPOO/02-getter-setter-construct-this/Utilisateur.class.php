@@ -1,4 +1,4 @@
-<?php 
+<?php
 /* 
 
 En POO les concepts de getter, setter, constructer et $this sont des mécanismes essentiels qui permettent d'organiser et de structure les classes tout en contrôlant la manipulation des props des objets 
@@ -25,7 +25,7 @@ En POO les concepts de getter, setter, constructer et $this sont des mécanismes
 
 */
 
-class Utilisateur 
+class Utilisateur
 {
     protected string $nom;
     protected string $email;
@@ -45,21 +45,21 @@ class Utilisateur
         return "Bonjour, je m'appelle $this->nom";
     }
 
-    public function getNom() 
+    public function getNom()
     { // Un getter me sert simplement à récupérer la valeur d'une prop, ici le nom 
         return $this->nom;
     }
 
-    public function setNom(string $newNom) 
+    public function setNom(string $newNom)
     { // Un setter me sert à faire une affectation dans une prop, et pourquoi pas appliquer une vérification (ici la longueur du nom)
-        if(iconv_strlen($newNom) >= 1) {
-             $this->nom = $newNom;
+        if (iconv_strlen($newNom) >= 1) {
+            $this->nom = $newNom;
         } else {
             trigger_error("Le nom ne peut pas être null", E_USER_NOTICE);
         }
     }
 
-    public function getEmail() 
+    public function getEmail()
     {
         return $this->email;
     }
@@ -92,6 +92,3 @@ echo $utilisateur1->getNom();
 
 $utilisateur1->setNom("bobobo");
 $utilisateur1->setEmail("boby@mail.com");
-
-
-?>

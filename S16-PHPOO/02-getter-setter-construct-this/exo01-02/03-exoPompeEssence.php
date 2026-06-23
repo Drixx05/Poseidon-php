@@ -32,3 +32,54 @@
 
 
  */
+
+class Vehicule
+{
+    private int $litresReservoir;
+
+    public function setLitresReservoir(int $litres): void
+    {
+        if ($litres < 0 || $litres > 50) {
+            trigger_error("Le réservoir doit contenir entre 0 et 50 litres.", E_USER_NOTICE);
+        }
+        $this->litresReservoir = $litres;
+    }
+
+    public function getLitresReservoir(): int
+    {
+        return $this->litresReservoir;
+    }
+}
+
+class Pompe
+{
+    private int $litresStock;
+
+    public function setLitresStock(int $litres): void
+    {
+        if ($litres < 0) {
+            trigger_error("Le stock de la pompe ne peut pas être négatif.", E_USER_NOTICE);
+        }
+        $this->litresStock = $litres;
+    }
+
+    public function getLitresStock(): int
+    {
+        return $this->litresStock;
+    }
+
+    public function donnerEssence(Vehicule $vehicule): void
+    {
+        $litresNecessaires = 50 - $vehicule->getLitresReservoir();
+        if ($litresNecessaires <= 0) {
+            trigger_error("Le véhicule a déjà un réservoir plein.", E_USER_NOTICE);
+        }
+        if ($this->litresStock < $litresNecessaires) {
+            trigger_error("La pompe n'a pas assez de stock pour remplir le véhicule.", E_USER_NOTICE);
+        }
+        $vehicule->setLitresReservoir(50);
+        $this->litresStock -= $litresNecessaires;
+    }
+}
+
+?>
