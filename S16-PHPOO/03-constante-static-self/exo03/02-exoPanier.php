@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* 
 
@@ -16,17 +16,62 @@ Objectif : Créer un système simple de gestion de panier avec une classe Panier
 
         */
 
-class Panier {
-    
-    const MAX_ITEMS = 15;
-    private static $totalItems = 0;
+class Panier
+{
 
-    public static function ajouterProduit(int $quantite) {
-        if (self::$totalItems + $quantite > self::MAX_ITEMS) throw new Exception("Impossible d'ajouter  d'autres produits. Le panier ne peut contenir que " . self::MAX_ITEMS . " articles au maximum. Achetez d'abord !");
-        self::$totalItems += $quantite;
+    public const MAX_ITEMS = 30;
+
+    public static $totalItems = 0;
+
+    public static function ajouterProduit($quantite)
+    {
+        if ($quantite <= 0) {   // Il faut forcément ajouter une quantité positive
+            return "Vous devez ajouter au moins 1 produit au panier.";
+        }
+
+        if ($quantite > self::MAX_ITEMS) { // Quantité supérieure au max autorisé
+            return "Veuillez réduire le nombre de produits que vous souhaitez ajouter !";
+        }
+
+        if (self::$totalItems == self::MAX_ITEMS) { // Quantité max déjà atteinte 
+            return "Vous avez atteint la limite de produits. Vous ne pouvez plus en ajouter.";
+        } else { // Sinon... On calcule
+            self::$totalItems += $quantite; // On ajoute la quantité
+            $surplus = self::$totalItems - self::MAX_ITEMS; // On vérifie si on a du surplus qui dépasse la quantité max autorisé
+
+            if ($surplus > 0) { // S'il y a un surplus
+                self::$totalItems -= $surplus; // On réduit la quantité de produit au max autorisé en indiquant au user qu'on lui a enlevé un certains nombre de produits 
+                return $surplus . " produits n'ont pas pu être ajoutés au panier car il a atteint sa capacité max.";
+            } else { // Sinon, c'est ok 
+                return $quantite . " produits ont correctement été ajoutés au panier.";
+            }
+        }
     }
 
-    public static function afficherTotal() {
-        echo "Articles dans le panier: " . self::$totalItems . "\n";
+    public static function afficherTotal()
+    {
+        return "Vous avez " . self::$totalItems . " produits dans votre panier.";
     }
 }
+
+echo Panier::MAX_ITEMS . "</br>";
+echo Panier::$totalItems . "</br>";
+
+$panier = new Panier;
+echo $panier->ajouterProduit(10);
+echo "</br>";
+echo $panier->afficherTotal();
+echo "<hr>";
+echo $panier->ajouterProduit(15);
+echo "</br>";
+echo $panier->afficherTotal();
+echo "<hr>";
+echo $panier->ajouterProduit(40);
+echo "<hr>";
+echo $panier->ajouterProduit(15);
+echo "</br>";
+echo $panier->afficherTotal();
+echo "<hr>";
+echo $panier->ajouterProduit(10);
+echo "<hr>";
+echo $panier->ajouterProduit(-5);
