@@ -21,7 +21,6 @@ class Voiture
     // Propriétés 
     public ?string $marque = null;  // Il est toujours bon de définir les types de nos propriétés et si jamais on autorise la valeur null, on doit rajouter un "?" devant le type 
     public string $couleur; // Je peux définir déjà ici des valeurs par défauts pour nos props, sinon elles seront vide "non initialisée"
-
     protected int $km; 
     private string $moteur;
 
