@@ -22,6 +22,7 @@ EXERCICE :
     ----------------------
 
 */
+
 class CompteBancaire
 {
     private string $titulaire;
@@ -41,7 +42,7 @@ class CompteBancaire
     public function setTitulaire(string $titulaire): void
     {
         if (iconv_strlen($titulaire, 'UTF-8') < 3 || iconv_strlen($titulaire, 'UTF-8') > 20) {
-            throw new Exception("Le pseudo doit être entre 3 et 20 caractères.");
+            throw new Exception("Le nom du titulaire doit être entre 3 et 20 caractères.");
         } else {
             $this->titulaire = $titulaire;
         }
@@ -61,30 +62,45 @@ class CompteBancaire
         }
     }
 
-    public function afficherSolde(string $titulaire, float $solde): string
+    public function afficherSolde(): string
     {
-        return "Le solde du compte de $titulaire est de $solde euros.";
+        return "Le solde du compte de " . $this->getTitulaire() . " est de " . $this->getSolde() . " euros.<hr>";
     }
 
-    public function retirer(string $withdrawal): void
+    public function retirer(int $withdrawal): void
     {
+
+        $soldeActuel = $this->getSolde();
+
         if ($withdrawal <= 0) {
             throw new Exception("Le montant du retrait doit être positif.");
         }
 
-        if ($this->solde - $withdrawal < -200) {
-            throw new Exception("Le solde ne peut pas être inférieur à -200, vous avez un découvert de 200 euros maximum.");
+        if ($soldeActuel - $withdrawal < -200) {
+            throw new Exception("Le montant que vous souhaitez retirer est trop élevé ! Le solde ne peut pas être inférieur à -200, vous avez un découvert de 200 euros maximum.");
         } else {
-            $this->solde -= $withdrawal;
+            $this->setSolde($soldeActuel - $withdrawal);
         }
     }
 
-    public function deposer(string $deposit): void
+    public function deposer(int $deposit): void
     {
         if ($deposit <= 0) {
             throw new Exception("Le montant du dépôt doit être positif.");
         } else {
-            $this->solde += $deposit;
+            $this->setSolde($this->getSolde() + $deposit);
         }
     }
 }
+
+$pierraAccount = new CompteBancaire("Pierra", "100");
+
+var_dump($pierraAccount);
+
+echo $pierraAccount->afficherSolde();
+$pierraAccount->deposer(1500);
+echo $pierraAccount->afficherSolde();
+$pierraAccount->retirer(600);
+echo $pierraAccount->afficherSolde();
+// $pierraAccount->retirer(2000);
+echo $pierraAccount->afficherSolde();
