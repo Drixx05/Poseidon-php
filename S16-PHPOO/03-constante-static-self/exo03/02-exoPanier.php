@@ -15,3 +15,18 @@ Objectif : Créer un système simple de gestion de panier avec une classe Panier
         Une méthode statique afficherTotal() qui affiche le nombre total d'articles dans le panier.
 
         */
+
+class Panier {
+    
+    const MAX_ITEMS = 15;
+    private static $totalItems = 0;
+
+    public static function ajouterProduit(int $quantite) {
+        if (self::$totalItems + $quantite > self::MAX_ITEMS) throw new Exception("Impossible d'ajouter  d'autres produits. Le panier ne peut contenir que " . self::MAX_ITEMS . " articles au maximum. Achetez d'abord !");
+        self::$totalItems += $quantite;
+    }
+
+    public static function afficherTotal() {
+        echo "Articles dans le panier: " . self::$totalItems . "\n";
+    }
+}

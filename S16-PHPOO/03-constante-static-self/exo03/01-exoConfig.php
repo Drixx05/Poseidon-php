@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* 
 
@@ -15,4 +15,30 @@ Objectif : Créer une classe Config pour gérer la configuration générale d'un
         Une méthode statique getSetting($key) pour récupérer une valeur de $settings.
         Une méthode statique getAppName() qui retourne le nom de l'application.
 
-*/ 
+*/
+
+class Config
+{
+    const APP_NAME = "QTE";
+    const DB_NAME = "qte_db";
+    const DB_USER = "Goku";
+    const DB_PASSWORD = "Janemba";
+    const ENV = "development";
+
+    private static array $settings = [];
+    
+    public static function setSetting($key, $value)
+    {
+        self::$settings[$key] = $value;
+    }
+
+    public static function getSetting($key)
+    {
+        return self::$settings[$key] ?? null;
+    }
+
+    public static function getAppName()
+    {
+        return self::APP_NAME;
+    }
+}
