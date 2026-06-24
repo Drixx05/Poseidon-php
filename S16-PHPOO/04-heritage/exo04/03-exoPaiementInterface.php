@@ -2,7 +2,7 @@
 
 /* 
 
-Exercice 2 : Gérer une simulation d'un mode de paiement via des classes, traits et interfaces
+Exercice 3 : Gérer une simulation d'un mode de paiement via des classes, traits et interfaces
 
 
 Énoncé :
@@ -21,47 +21,58 @@ interface PaiementInterface
     public function executerPaiement();
 }
 
-abstract class Paiement implements PaiementInterface
-{
-    abstract function traiterPaiement();
-}
-
 trait ValidationPaiement
 {
     public function valider()
     {
-        echo "Votre paiement est valide , ou non.<br>";
+        return "Details du paiement validés<br>";
     }
 }
 
-class PaiementCarte extends Paiement
+
+abstract class Paiements implements PaiementInterface
 {
     use ValidationPaiement;
 
+    protected float $montant;
+
+    public function __construct(float $montant)
+    {
+        $this->montant = $montant;
+    }
+
+    abstract public function traiterPaiement();
+
     public function executerPaiement()
     {
-        $this->valider();
-        $this->traiterPaiement();
+        echo $this->valider();
+        return $this->traiterPaiement();
     }
+}
+
+class PaiementVirement extends Paiements
+{
 
     final public function traiterPaiement()
     {
-        echo "Paiement effectué.<br>";
+        return "Paiement de $this->montant € par virement<br>";
     }
 }
 
-class PaiementVirement extends Paiement
+class PaiementCarte extends Paiements
 {
-    use ValidationPaiement;
-
-    public function executerPaiement()
-    {
-        $this->valider();
-        $this->traiterPaiement();
-    }
 
     public function traiterPaiement()
     {
-        echo "Veuillez renseigner les coordonnées bancaires.<br>";
+        return "Paiement de $this->montant € par carte<br>";
     }
 }
+
+// Appels : 
+
+$carte = new PaiementCarte(100);
+echo $carte->executerPaiement();
+
+
+$virement = new PaiementVirement(100);
+echo $virement->executerPaiement();
