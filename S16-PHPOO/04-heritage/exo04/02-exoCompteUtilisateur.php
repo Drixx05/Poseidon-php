@@ -13,3 +13,25 @@ Objectif : Créer une classe de base CompteUtilisateur qui gère les information
     Instancier les deux types d’utilisateurs et appelle leurs méthodes afficherInfos().
 
 */
+
+class CompteUtilisateur {
+    protected $nom;
+    protected $email;
+
+    public function __construct($nom, $email) {
+        $this->nom = $nom;
+        $this->email = $email;
+    }
+
+    public function afficherInfos() {
+        echo "Nom: " . self::$nom . "<br>";
+        echo "Email: " . self::$email . "<br>";
+    }
+}
+
+class ComptePremium extends CompteUtilisateur {
+    public function afficherInfos() {
+        parent::afficherInfos();
+        echo "Compte: Compte Premium<br>";
+    }
+}

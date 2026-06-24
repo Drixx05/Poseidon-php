@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* 
 
@@ -15,3 +15,53 @@ Exercice 2 : Gérer une simulation d'un mode de paiement via des classes, traits
 
 
     */
+
+interface PaiementInterface
+{
+    public function executerPaiement();
+}
+
+abstract class Paiement implements PaiementInterface
+{
+    abstract function traiterPaiement();
+}
+
+trait ValidationPaiement
+{
+    public function valider()
+    {
+        echo "Votre paiement est valide , ou non.<br>";
+    }
+}
+
+class PaiementCarte extends Paiement
+{
+    use ValidationPaiement;
+
+    public function executerPaiement()
+    {
+        $this->valider();
+        $this->traiterPaiement();
+    }
+
+    final public function traiterPaiement()
+    {
+        echo "Paiement effectué.<br>";
+    }
+}
+
+class PaiementVirement extends Paiement
+{
+    use ValidationPaiement;
+
+    public function executerPaiement()
+    {
+        $this->valider();
+        $this->traiterPaiement();
+    }
+
+    public function traiterPaiement()
+    {
+        echo "Veuillez renseigner les coordonnées bancaires.<br>";
+    }
+}
