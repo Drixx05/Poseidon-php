@@ -8,39 +8,36 @@ Objectif : Créer un code qui demande à l'utilisateur de saisir son âge (au tr
 
 */
 
-class AgeException extends Exception
-{
-    public function __construct()
-    {
-        parent::__construct("Vous êtes trop jeune, revenez plus tard.");
-    }
-}
+var_dump($_POST);
 
-class AgeValidator
+class Validateur
 {
-    public function validateAge($age)
+    public static function verifierAge(int $age): mixed
     {
         if ($age < 18) {
-            throw new AgeException();
+            throw new Exception("Vous devez avoir au moins 18 ans.");
+        } else {
+            return true;
         }
-        return true;
     }
 }
 
+$message = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["age"])) {
-    $message = '';
-    $age = (int)$_POST["age"];
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $ageValidator = new AgeValidator();
-        $ageValidator->validateAge($age);
-        $message = "Accès autorisé, bienvenue.";
-    } catch (AgeException $e) {
-        $message = $e->getMessage();
+        if (isset($_POST['age']) && $_POST['age'] !== '' && is_numeric($_POST['age'])) {
+            $age =  (int) $_POST['age'];
+            Validateur::verifierAge($age);
+
+            $message = "Accès accordé, vous avez " . $age . " ans.";
+        } else {
+            $message = "Veuillez saisir votre âge.";
+        }
+    } catch (Exception $e) {
+        $message = "Erreur : " . $e->getMessage();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -48,19 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["age"])) {
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Est-ce que je suis vieux ?</title>
+    <title>Validation Age</title>
 </head>
 
 <body>
-    <h1>Est-ce que je suis vieux ?</h1>
-
     <?php if (!empty($message)): ?>
-        <p><?= htmlspecialchars($message) ?></p>
+        <p><?= $message ?></p>
     <?php endif; ?>
 
-    <form method="post">
-        <label for="age">Entrez votre âge :</label>
+    <form action="" method="post">
+        <label for="age">Votre âge :</label>
         <input type="number" name="age" id="age" required>
         <input type="submit" value="Valider">
     </form>

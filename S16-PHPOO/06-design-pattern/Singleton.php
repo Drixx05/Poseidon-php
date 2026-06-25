@@ -90,7 +90,7 @@ class Singleton
     {
 
         if (self::$instance === null) { // si $instance vide, alors je crée l'unique objet
-            self::$instance = new Singleton;
+            self::$instance = new self;
         }
         return self::$instance; // Quoi qu'il en soit, je return la prop $instance qui contient forcément l'objet unique
     }
