@@ -1,4 +1,5 @@
 <?php
+
 /** @var \App\Chat\Domain\Entities\Message[] $messages */
 /** @var array $errors */
 ?>
@@ -13,8 +14,14 @@
 
 <body class="bg-light">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Tchat en ligne</h1>
-        <div class="row g-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Tchat en ligne</h1>
+                <div>
+                    <span class="text-muted me-3">Connecté : <?= htmlspecialchars($_SESSION['user_name'] ?? '') ?></span>
+                    <a href="/logout" class="btn btn-outline-secondary btn-sm">Déconnexion</a>
+                </div>
+        </div>  
+      <div class="row g-4">
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-body">

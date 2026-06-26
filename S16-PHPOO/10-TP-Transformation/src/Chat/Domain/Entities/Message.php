@@ -23,7 +23,7 @@ final class Message
         if ($content === '') {
             throw new \InvalidArgumentException('Le message ne peut pas être vide.');
         }
-        if (mb_strlen($content) > 1000) {
+        if (iconv_strlen($content) > 1000) {
             throw new \InvalidArgumentException('Le message ne peut pas dépasser 1000 caractères.');
         }
 

@@ -17,7 +17,7 @@ final class PostMessage
             authorId: $authorId,
             authorName: $authorName,
             content: $content,
-            createdAt: date('d-m-Y H:i:s'),
+            createdAt: date('Y-m-d H:i:s'),
         );
 
         $this->messageRepository->save($message);

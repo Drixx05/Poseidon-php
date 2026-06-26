@@ -26,11 +26,13 @@ final class LoginUserController
             try {
                 $command = new LoginUserCommand($email, $password);
                 $user = $this->loginUser->execute($command);
+                
+                session_regenerate_id(true); // Regénère l'ID de session pour éviter les attaques de fixation de session
 
                 $_SESSION['user_id'] = $user->id;
                 $_SESSION['user_name'] = $user->name;
 
-                header('Location: /');
+                header('Location: /chat');
                 return;
             } catch (InvalidCredentialsException $e) {
                 $errors[] = 'Identifiants invalides.';
