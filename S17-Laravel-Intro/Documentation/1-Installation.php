@@ -86,7 +86,9 @@ laravel new entreprise	                        Crée un nouveau projet Laravel
 cd entreprise	                                Se déplacer dans le dossier du projet
 npm install	                                    Installer les dépendances Front-End
 php artisan serve	                            Lancer le serveur de développement
-npm run dev	                                    Lancer le serveur Vite
+composer run dev	                            Lancer le serveur Vite
+
+Une fois php artisan serve et composer run dev lancés depuis le dossier d'installation c'est bon ! 
 
 
 A partir de là le projet est créé et ready to go !

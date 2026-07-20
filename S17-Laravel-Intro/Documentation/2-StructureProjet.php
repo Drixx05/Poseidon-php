@@ -21,6 +21,8 @@ les modèles
 les middlewares
 les commandes Artisan personnalisées
 les éventuels services ou classes métiers
+À retenir :
+Le dossier app/ contient principalement le code PHP développé par le programmeur.
 
 (c'est le dossier qu'on utilisera le plus !)
 
@@ -30,6 +32,8 @@ Il contient les fichiers nécessaires à l'initialisation du framework.
 On y trouve notamment :
 le fichier de démarrage de Laravel ;
 un dossier cache/ utilisé pour accélérer certaines opérations.
+À retenir :
+bootstrap/ permet à Laravel de démarrer correctement.
 
 --- Le dossier config/
 Le dossier config/ contient tous les fichiers de configuration de Laravel.
@@ -43,6 +47,8 @@ cache.php
 session.php
 Ces fichiers permettent de configurer le comportement de Laravel.
 Une grande partie de ces paramètres utilise les variables définies dans le fichier .env.
+À retenir :
+Le dossier config/ centralise la configuration de l'application.
 
 --- Le dossier database/
 Le dossier database/ regroupe tout ce qui concerne la base de données.
@@ -58,6 +64,8 @@ seeders/
 Les migrations permettent de créer la structure des tables.
 Les seeders servent à insérer des données.
 Les factories génèrent automatiquement de grandes quantités de données de test.
+À retenir :
+Le dossier database/ contient tout ce qui permet de construire et remplir la base de données.
 
 --- Le dossier public/
 Le dossier public/ est le point d'entrée de l'application.
@@ -67,6 +75,8 @@ le fichier index.php
 les images publiques
 les fichiers CSS et JavaScript compilés.
 Toutes les requêtes HTTP passent d'abord par ce dossier avant d'être transmises à Laravel.
+À retenir :
+Le dossier public/ représente la porte d'entrée de l'application.
 
 --- Le dossier resources/
 Le dossier resources/ contient les ressources utilisées par l'application.
@@ -81,6 +91,8 @@ css/
 js/
 Le dossier views/ sera très utilisé durant la formation en plus de notre app
 C'est ici que seront créées toutes les pages HTML de notre application.
+À retenir :
+Le dossier resources/ contient les ressources utilisées par l'application, notamment les vues Blade.
 
 --- Le dossier routes/
 Le dossier routes/ contient toutes les routes de l'application.
@@ -89,6 +101,8 @@ Les principaux fichiers sont :
 web.php
 console.php
 Le fichier web.php contient les routes destinées au site web.
+À retenir :
+Le dossier routes/ permet de définir les URL accessibles par les utilisateurs.
 
 --- Le dossier storage/
 Le dossier storage/ est utilisé par Laravel pour stocker différents fichiers générés automatiquement.
@@ -98,6 +112,8 @@ les journaux d'erreurs (logs) ;
 les fichiers temporaires ;
 les fichiers uploadés selon la configuration choisie.
 Ce dossier est principalement géré par Laravel.
+À retenir :
+Le dossier storage/ contient les fichiers générés pendant le fonctionnement de l'application.
 
 --- Le dossier vendor/
 Le dossier vendor/ contient toutes les bibliothèques installées avec Composer.
@@ -105,6 +121,8 @@ Laravel lui-même se trouve en grande partie dans ce dossier.
 Chaque dépendance installée via Composer est automatiquement copiée dans vendor/.
 Ce dossier peut contenir plusieurs milliers de fichiers.
 Il ne doit jamais être modifié manuellement.
+À retenir :
+Le dossier vendor/ contient toutes les bibliothèques PHP utilisées par le projet.
 
 --- Le fichier .env
 Le fichier .env contient les variables d'environnement de l'application.
@@ -120,6 +138,8 @@ APP_DEBUG=true
 DB_CONNECTION=mysql
 DB_DATABASE=entreprise
 Grâce à ce système, il est possible de modifier la configuration d'un projet sans toucher au code source.
+À retenir :
+Le fichier .env contient la configuration propre à l'environnement d'exécution de l'application.
 
 
 */
