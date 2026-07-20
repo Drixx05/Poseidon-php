@@ -14,7 +14,7 @@ $controllers = ["user", "product"];
 // En ayant uniformisé tous nos controllers, l'unique fait que le controller soit différent, change la totalité du contenu de nos pages, on est completement sous d'autres contexte, par exemple les affichages des produits etc 
 if (isset($_GET["ctrl"]) && in_array($_GET["ctrl"], $controllers)){
     if ($_GET["ctrl"] == "product") {
-        $controller = new ProductController;
+        // $controller = new ProductController;
     } elseif ($_GET["ctrl"] == "user") {
         $controller = new UserController;
     }
