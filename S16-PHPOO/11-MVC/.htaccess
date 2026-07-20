@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /Poseidon/S16-PHPOO/11-MVC/
+
+# Redirige /action/param vers index.php
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([0-9]+)$ index.php?ctrl=$1&op=$2&id=$3 [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?ctrl=$1&op=$2 [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?ctrl=$1 [L,QSA]
+
+ErrorDocument 404 /Poseidon/S16-PHPOO/11-MVC/404.php
+
+# La réécriture d'URL, ou URL rewriting, est une technique courante utilisée pour rendre les URLs plus claires, lisibles et mieux référencées. En créant des URLs structurées et descriptives, les développeurs facilitent la navigation, améliorent l'expérience utilisateur et optimisent le référencement 
+
+# le [L] signifie Last, pour dernière règle utilisée, une fois ce pattern rencontré on ne cherchera pas d'autres routes 
+# [QSA] (Query String Append)
+    # Signification : Query String Append (Ajouter la chaîne de requête) : Si l'URL d'origine contient des paramètres de requête (query string), [QSA] s'assure qu'ils sont ajoutés à l'URL de destination.
