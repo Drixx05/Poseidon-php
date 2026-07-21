@@ -35,13 +35,35 @@ class ServiceController extends Controller
 
     public function index()
     {
-        return view('services.index', ['services' => $this->services]);
+        $servicesAvecBadge = [];
+
+        foreach ($this->services as $service) {
+            $service['badge'] = $this->badgeClass($service['nom']);
+            $servicesAvecBadge[] = $service;
+        }
+
+        return view('services.index', ['services' => $servicesAvecBadge]);
     }
 
     public function show($id)
     {
         $service = collect($this->services)->firstWhere('id', (int) $id);
 
+        if ($service) {
+            $service['badge'] = $this->badgeClass($service['nom']);
+        }
+
         return view('services.show', ['service' => $service]);
+    }
+
+    private function badgeClass(string $nomService): string
+    {
+        return match ($nomService) {
+            'Direction' => 'primary',
+            'Comptabilité' => 'success',
+            'Informatique' => 'info',
+            'Assistance' => 'warning',
+            default => 'secondary',
+        };
     }
 }

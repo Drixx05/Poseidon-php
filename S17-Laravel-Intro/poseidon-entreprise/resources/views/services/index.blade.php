@@ -1,21 +1,21 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des services</title>
-</head>
-<body>
-    @include('layout.nav')
+<x-layout title="Liste des services">
+
     <h1>Liste des services</h1>
 
-    <ul>
-        @foreach ($services as $service)
-            <li>
-                <a href="{{ route('services.show', $service['id']) }}">
-                    {{ $service['nom'] }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
-</body>
-</html>
+    <p>Nombre total de services : {{ count($services) }}</p>
+
+    @forelse ($services as $service)
+        <x-service-card
+            :id="$service['id']"
+            :nom="$service['nom']"
+            :responsable="$service['responsable']"
+            :telephone="$service['telephone']"
+            :badge="$service['badge']"
+        />
+    @empty
+        <p>Aucun service</p>
+    @endforelse
+
+    <p class="text-muted mt-4">Dernière mise à jour : {{ now()->format('d/m/Y H:i') }}</p>
+
+</x-layout>
