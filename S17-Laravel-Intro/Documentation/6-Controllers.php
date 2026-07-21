@@ -141,3 +141,4 @@ View : gère l'affichage.
 Controller : fait le lien entre les deux.
 Le contrôleur reçoit la requête de l'utilisateur, prépare les données nécessaires et choisit la vue à afficher.
 Il constitue le point central de la logique de l'application.
+*/

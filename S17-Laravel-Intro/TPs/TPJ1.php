@@ -87,3 +87,4 @@ Employés
 Services
 Contact
 Toutes les URL devront utiliser des routes nommées.
+*/
