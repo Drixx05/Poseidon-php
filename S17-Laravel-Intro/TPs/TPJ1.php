@@ -21,6 +21,8 @@ Toutes les pages concernant les services devront être regroupées dans ce contr
 
 --- 2 - Créer les vues
 Créer les vues suivantes dans un dossier resources/views/services/
+services/index.blade.php
+services/show.blade.php
 
 --- 3 - Définir les routes
 Créer les routes suivantes.
@@ -87,3 +89,5 @@ Employés
 Services
 Contact
 Toutes les URL devront utiliser des routes nommées.
+
+*/
