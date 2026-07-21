@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 $employes = null;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -62,3 +64,13 @@ Route::post('/contact', function() {
 Route::get('/bienvenue', [EmployeController::class, 'bienvenue'])->name('bienvenue');
 Route::get('/liste', [EmployeController::class, 'liste'])->name('liste');
 Route::get('/fiche/{id}', [EmployeController::class, 'fiche'])->name('fiche');
+
+Route::get('/services', [ServiceController::class, "index"])->name("services.index");
+Route::get('/services/{id}', [ServiceController::class, "show"])->name("services.show");
+
+Route::get('/employes', [EmployeController::class, "index"])->name("employes.index");
+Route::get('/employes/{id}', [EmployeController::class, "show"])->name("employes.show");
+
+Route::get('/', [HomeController::class, "home"])->name("home");
+Route::get('/contact', [HomeController::class, "contact"])->name("contact");
+Route::get('/bladetest', [HomeController::class, "bladetest"])->name("bladetest");
