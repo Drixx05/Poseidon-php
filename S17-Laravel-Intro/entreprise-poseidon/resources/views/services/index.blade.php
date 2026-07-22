@@ -1,29 +1,37 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('title')
     Liste des services
 @endsection
 
 @section('content')
-    <ul>
+    <ul> --}}
         <?php 
-// var_dump($services)
-foreach($services as $service){
-    echo "<li>";
-    echo $service["nom"] . " - Responsable : " . $service["responsable"];
+// // var_dump($services)
+// foreach($services as $service){
+//     echo "<li>";
+//     echo $service["nom"] . " - Responsable : " . $service["responsable"];
+// 
+//         <a href="{{ route('services.show', ['id' => $service['id']]) }}">Lien vers le service</a>
+//         <?php
+//     echo "</li>";
+// }
 ?>
-        <a href="{{ route('services.show', ['id' => $service['id']]) }}">Lien vers le service</a>
-        <?php
-    echo "</li>";
-}
-?>
-    </ul>
+    {{-- </ul> --}}
+<x-layout>
     <ul>
         @forelse($services as $service)
-            <li> {{ $service['nom'] }} - Responsable : {{ $service['responsable'] }}
-                <a href="{{ route('services.show', ['id' => $service['id']]) }}">Lien vers le service</a>
+
+        <x-service-card :service="$service" />
+            {{-- <li> {{ $service['nom'] }} - Responsable : {{ $service['responsable'] }}
+                <a href="{{ route('services.show', ['id' => $service['id']]) }}">Lien vers le service</a> --}}
             @empty
                 <p>Aucun service pour l'instant</p>
         @endforelse
     </ul>
-@endsection
+</x-layout>
+
+
+
+
+{{-- @endsection --}}
