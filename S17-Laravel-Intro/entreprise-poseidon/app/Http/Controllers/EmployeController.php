@@ -91,7 +91,10 @@ class EmployeController extends Controller
 
         // A partir de là, en ORM Eloquent
 
-        // $employes = Employe::all();
+        // dd(Employe::factory()->make()); // simplement creation de l'objet
+        // dd(Employe::factory()->create()); // Creation de l'objet de envoi vers bdd
+
+        $employes = Employe::all();
         // $employes = Employe::where('service', 'direction')->get();
         // $employe = Employe::find(350);
 
@@ -118,7 +121,7 @@ class EmployeController extends Controller
         //     'nom' => 'LeGris',
         //     'sexe' => 'm',
         // ]);
-        dd(Employe::latest()->get());
+        // dd(Employe::latest()->get());
         
 
         // dd($employes);
