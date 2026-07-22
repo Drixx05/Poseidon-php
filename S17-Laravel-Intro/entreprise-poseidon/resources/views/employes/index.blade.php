@@ -20,7 +20,7 @@
         Bienvenue sur la liste des Employés !
     </x-alert>
     @forelse($employes as $employe)
-        <x-employe-card :prenom="$employe['prenom']" :nom="$employe['nom']" :service="$employe['service']" :salaire="$employe['salaire']" />
+        <x-employe-card :prenom="$employe->prenom" :nom="$employe->nom" :service="$employe->service" :salaire="$employe->salaire" />
     @empty
         <p>Aucun employe pour l'instant</p>
     @endforelse

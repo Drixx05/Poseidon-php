@@ -74,3 +74,4 @@ Route::get('/employes/{id}', [EmployeController::class, "show"])->name("employes
 Route::get('/', [HomeController::class, "home"])->name("home");
 Route::get('/contact', [HomeController::class, "contact"])->name("contact");
 Route::get('/bladetest', [HomeController::class, "bladetest"])->name("bladetest");
+Route::get('/bladeexo', [HomeController::class, "bladeexo"])->name("bladeexo");
