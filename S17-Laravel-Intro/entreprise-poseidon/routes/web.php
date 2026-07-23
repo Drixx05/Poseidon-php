@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,17 +62,25 @@ Route::post('/contact', function() {
 });
 
 // A partir de là les routes avec controller 
-Route::get('/bienvenue', [EmployeController::class, 'bienvenue'])->name('bienvenue');
-Route::get('/liste', [EmployeController::class, 'liste'])->name('liste');
-Route::get('/fiche/{id}', [EmployeController::class, 'fiche'])->name('fiche');
+// Route::get('/bienvenue', [EmployeController::class, 'bienvenue'])->name('bienvenue');
+// Route::get('/liste', [EmployeController::class, 'liste'])->name('liste');
+// Route::get('/fiche/{id}', [EmployeController::class, 'fiche'])->name('fiche');
 
 Route::get('/services', [ServiceController::class, "index"])->name("services.index");
 Route::get('/services/{id}', [ServiceController::class, "show"])->name("services.show");
 
 Route::get('/employes', [EmployeController::class, "index"])->name("employes.index");
-Route::get('/employes/{id}', [EmployeController::class, "show"])->name("employes.show");
+Route::get('/employes/create', [EmployeController::class, "create"])->name("employes.create");
+Route::post('/employes', [EmployeController::class, "store"])->name("employes.store");
+Route::get('/employes/{employe}', [EmployeController::class, "show"])->name("employes.show");
+Route::get('/employes/{employe}/edit', [EmployeController::class, "edit"])->name("employes.edit");
+Route::put('/employes/{employe}', [EmployeController::class, "update"])->name("employes.update");
+Route::delete('/employes/{employe}', [EmployeController::class, "destroy"])->name("employes.destroy");
+
 
 Route::get('/', [HomeController::class, "home"])->name("home");
 Route::get('/contact', [HomeController::class, "contact"])->name("contact");
 Route::get('/bladetest', [HomeController::class, "bladetest"])->name("bladetest");
 Route::get('/bladeexo', [HomeController::class, "bladeexo"])->name("bladeexo");
+
+Route::resource('products', ProductController::class);
