@@ -2,58 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Service;
+use Illuminate\Support\Collection;
 
 class ServiceController extends Controller
 {
-    private array $services = [
-        [
-            "id" => 1,
-            "nom" => "Direction",
-            "responsable" => "Jean-Pierre Laborde",
-            "telephone" => "01 40 12 34 56"
-        ],
-        [
-            "id" => 2,
-            "nom" => "Comptabilité",
-            "responsable" => "Claire Durand",
-            "telephone" => "01 40 12 34 57"
-        ],
-        [
-            "id" => 3,
-            "nom" => "Informatique",
-            "responsable" => "Thomas Chevel",
-            "telephone" => "01 40 12 34 58"
-        ],
-        [
-            "id" => 4,
-            "nom" => "Assistance",
-            "responsable" => "Stephanie Lafaille",
-            "telephone" => "01 40 12 34 59"
-        ]
-    ];
-
     public function index()
     {
-        $servicesAvecBadge = [];
+        $services = $this->withBadges(Service::all());
 
-        foreach ($this->services as $service) {
-            $service['badge'] = $this->badgeClass($service['nom']);
-            $servicesAvecBadge[] = $service;
-        }
-
-        return view('services.index', ['services' => $servicesAvecBadge]);
+        return view('services.index', ['services' => $services]);
     }
 
     public function show($id)
     {
-        $service = collect($this->services)->firstWhere('id', (int) $id);
+        $service = Service::find($id);
 
         if ($service) {
-            $service['badge'] = $this->badgeClass($service['nom']);
+            $service->badge = $this->badgeClass($service->nom);
         }
 
         return view('services.show', ['service' => $service]);
+    }
+
+    public function direction()
+    {
+        $services = $this->withBadges(Service::where('nom', 'Direction')->get());
+
+        return view('services.direction', ['services' => $services]);
+    }
+
+    public function responsables()
+    {
+        $responsables = Service::select('nom', 'responsable')->get();
+
+        return view('services.responsables', ['responsables' => $responsables]);
+    }
+
+    public function count()
+    {
+        $total = Service::count();
+
+        return view('services.count', ['total' => $total]);
+    }
+
+    private function withBadges(Collection $services): Collection
+    {
+        foreach ($services as $service) {
+            $service->badge = $this->badgeClass($service->nom);
+        }
+
+        return $services;
     }
 
     private function badgeClass(string $nomService): string
