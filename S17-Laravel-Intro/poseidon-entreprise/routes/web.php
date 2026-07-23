@@ -10,11 +10,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/direction', [ServiceController::class, 'direction'])->name('services.direction');
 Route::get('/services/responsables', [ServiceController::class, 'responsables'])->name('services.responsables');
 Route::get('/services/count', [ServiceController::class, 'count'])->name('services.count');
-Route::get('/services/{id}', [ServiceController::class, 'show'])->name('services.show');
+Route::resource('services', ServiceController::class);
 
 Route::get('/employes', [EmployeController::class, "index"])->name("employes.index");
 Route::get('/employes/{id}', [EmployeController::class, "show"])->name("employes.show");
